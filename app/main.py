@@ -11,5 +11,5 @@ from fastapi import FastAPI
 app = FastAPI()
 
 @app.get("/")
-def home():
+async def main():
     return {"prediction": "Hello World"}
