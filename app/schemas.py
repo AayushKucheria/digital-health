@@ -31,7 +31,7 @@ class PatientBase(BaseModel):
 # Inherited class with extra attributes while creation
 class PatientCreate(PatientBase):
     age: int
-
+    id: int
 # Schema for reading
 class Patient(PatientBase):
     id: int

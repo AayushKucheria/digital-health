@@ -8,3 +8,4 @@ fastapi
 pandas
 gunicorn
 psycopg2-binary
+SQLAlchemy
