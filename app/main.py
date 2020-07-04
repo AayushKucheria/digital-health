@@ -9,6 +9,7 @@ from app import crud, models, schemas
 models.database.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+print(models.database.Base.metadata)
 
 
 # DATABASE_URL = os.environ['postgres://qrutnlncgfznek:ca0781860fbb93e669ec0c0ca760ad32ae1c84d5e1580f6bc11aa4ec3c6d8764@ec2-34-197-188-147.compute-1.amazonaws.com:5432/db2rqfi8hqb9l5']

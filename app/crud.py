@@ -21,7 +21,7 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
 ### Creating data ###
 
 def create_patient(db: Session, patient: schemas.PatientCreate):
-    db_patient = models.Patient(sex=patient.sex, age=patient.age)
+    db_patient = models.Patient(age=patient.age, sex=patient.sex)
     db.add(db_patient)
     db.commit()
     db.refresh(db_patient)
