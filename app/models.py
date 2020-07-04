@@ -10,7 +10,7 @@ class Patient(database.Base):
 
     id = Column(Integer, primary_key=True, index=True)
     age = Column(Integer)
-    # sex = Column(String)
+    sex = Column(String)
     # date = Column(datetime)
 
     items = relationship("Item", back_populates="owner")
