@@ -1,14 +1,15 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from app import database
+import database
 import datetime
 
 
-# SAL Alchemy Models
+# SQL Alchemy Models
 class Patient(database.Base):
     __tablename__ = "patients"
 
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
     age = Column(Integer)
     sex = Column(String)
     # date = Column(datetime)

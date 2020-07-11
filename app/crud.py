@@ -3,13 +3,15 @@
 # CRUD = Create Read Update Delete
 
 from sqlalchemy.orm import Session
-from app import models, schemas
+import models, schemas
 
 ### Reading Data ###
 
-# Replace User._ with anything else to get user by _
 def get_patient(db: Session, patient_id: int):
     return db.query(models.Patient).filter(models.Patient.id == patient_id).first()
+
+# def get_patient_by_name(db: Session, patient_name: str):
+#     return db.query(models.Patient).filter(models.Patient.name == patient_name).first()
 
 def get_patients(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Patient).offset(skip).limit(limit).all()
@@ -18,10 +20,10 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Item).offset(skip).limit(limit).all()
 
 
-### Creating data ###
+### Creating data ### always
 
 def create_patient(db: Session, patient: schemas.PatientCreate):
-    db_patient = models.Patient(age=patient.age, sex=patient.sex)
+    db_patient = models.Patient(age=patient.age, sex=patient.sex, name=patient.name)
     db.add(db_patient)
     db.commit()
     db.refresh(db_patient)

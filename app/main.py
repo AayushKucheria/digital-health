@@ -1,10 +1,12 @@
-import os
-import psycopg2
-from fastapi import FastAPI, Depends, HTTPException
 from typing import List
+
+from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.database import SessionLocal, engine
-from app import crud, models, schemas
+
+import crud
+import models
+import schemas
+from database import SessionLocal, engine
 
 models.database.Base.metadata.create_all(bind=engine)
 
@@ -27,15 +29,15 @@ def get_db():
     finally:
         db.close()
 
+# Create a patient in database when a "Patient" query has been sent
+# @app.post("/patients/", response_model=schemas.Patient)
+# def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
+#     db_patient = crud.get_patient(db, patient_id=patient.id)
+#     if db_patient:
+#         raise HTTPException(status_code=400, detail="ID already registered")
+#     return crud.create_patient(db=db, patient=patient)
 
-@app.post("/patients/", response_model=schemas.Patient)
-def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
-    db_patient = crud.get_patient(db, patient_id=patient.id)
-    if db_patient:
-        raise HTTPException(status_code=400, detail="ID already registered")
-    return crud.create_patient(db=db, patient=patient)
-
-
+# Get all patients from database
 @app.get("/patients/", response_model=List[schemas.Patient])
 def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     patients = crud.get_patients(db, skip=skip, limit=limit)

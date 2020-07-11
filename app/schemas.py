@@ -32,12 +32,14 @@ class Item(ItemBase):
 class PatientBase(BaseModel):
     sex: str
     age: int
+    name: str
 
 
 # Inherited class with extra attributes while creation
 class PatientCreate(PatientBase):
     # age: int
     id: int
+    # name: str
     # sex: str
     # ohgod: str
 
@@ -45,6 +47,7 @@ class PatientCreate(PatientBase):
 # Schema for reading
 class Patient(PatientBase):
     id: int
+    # name: str
     items: List[Item] = []
 
     class Config:
