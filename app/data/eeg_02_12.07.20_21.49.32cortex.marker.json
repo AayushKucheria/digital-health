@@ -1,0 +1,32 @@
+{
+    "Markers": [
+        {
+            "endDatetime": "2020-07-12T21:49:52.136277+03:00",
+            "extras": {
+            },
+            "index": 1,
+            "label": "Eyes Opened",
+            "port": "Baseline EmotivPRO",
+            "startDatetime": "2020-07-12T21:49:37.131606+03:00",
+            "type": "interval",
+            "uuid": "159bfe42-6045-433d-acb5-be8e2a2fc9f4",
+            "value": 1
+        },
+        {
+            "endDatetime": "2020-07-12T21:50:12.133422+03:00",
+            "extras": {
+            },
+            "index": 2,
+            "label": "Eyes Closed",
+            "port": "Baseline EmotivPRO",
+            "startDatetime": "2020-07-12T21:49:57.134510+03:00",
+            "type": "interval",
+            "uuid": "c33b65d9-2030-48e6-9ce8-bcc6012d3be7",
+            "value": 3
+        }
+    ],
+    "exportApp": "com.emotiv.emotivpro",
+    "exportTime": "2020-07-12T21:53:35.249+03:00",
+    "recordId": "e154cb47-1042-4f4c-8bbd-9f2e9c430765",
+    "user": "protopaja_2020"
+}
