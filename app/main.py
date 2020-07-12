@@ -1,3 +1,8 @@
+'''
+Gets the local server running
+Run from uvicorn main:app
+'''
+
 from typing import List
 
 from fastapi import FastAPI, Depends, HTTPException
@@ -14,31 +19,19 @@ app = FastAPI()
 print(models.database.Base.metadata)
 
 
-# DATABASE_URL = os.environ['postgres://qrutnlncgfznek:ca0781860fbb93e669ec0c0ca760ad32ae1c84d5e1580f6bc11aa4ec3c6d8764@ec2-34-197-188-147.compute-1.amazonaws.com:5432/db2rqfi8hqb9l5']
-# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-#
-# @app.get("/")
-# async def main():
-#     return {"prediction": "Hello World"}
-
 # Dependency
 def get_db():
-    db = SessionLocal()
+    db = SessionLocal()  # Creating a session
     try:
         yield db
     finally:
         db.close()
 
-# Create a patient in database when a "Patient" query has been sent
-# @app.post("/patients/", response_model=schemas.Patient)
-# def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
-#     db_patient = crud.get_patient(db, patient_id=patient.id)
-#     if db_patient:
-#         raise HTTPException(status_code=400, detail="ID already registered")
-#     return crud.create_patient(db=db, patient=patient)
 
 # Get all patients from database
 @app.get("/patients/", response_model=List[schemas.Patient])
 def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     patients = crud.get_patients(db, skip=skip, limit=limit)
+    print(patients)
     return patients
+

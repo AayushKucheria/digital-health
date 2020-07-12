@@ -1,22 +1,24 @@
+'''
+Getting data from OPENBCI device and storing it in a csv
+Run file with params --> --ip='' --port=12345 --option='record --patient='aayush kucheria' --time=180
+'''
+
 import argparse
 import time
-import atexit
 import os
 import signal
 import sys
-import multiprocessing
+import datetime
 
 from pythonosc import dispatcher
 from pythonosc import osc_server
-
-from csv import reader
 
 
 # Print received message to console
 def print_message(*args):
     try:
-        current = time.time()
-        # print("(%f) RECEIVED MESSAGE: %s %s" % (current, args[0], ",".join(str(x) for x in args[1:])))  # Prints the address
+        # current = time.time()
+        current = str(datetime.datetime.now())
         print("(%f) RECEIVED MESSAGE: %s" % (
             current, ",".join(str(x) for x in args[1:])))  # Time, Channel 1, Channel 2, ..., Channel n
 
@@ -80,8 +82,7 @@ if __name__ == "__main__":
             i += 1
         filename = ("data/" + args.patient + "%i.csv") % i
         textfile = open(filename, "w")
-        textfile.write("time,address,messages\n")
-        textfile.write("-------------------------\n")
+        # textfile.write("time,address,messages\n")
         print("Recording to %s" % filename)
         dispatcher.map("/openbci", record_to_file)
         signal.signal(signal.SIGINT, close_file)

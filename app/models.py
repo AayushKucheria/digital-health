@@ -12,11 +12,10 @@ class Patient(database.Base):
     name = Column(String)
     age = Column(Integer)
     sex = Column(String)
-    # date = Column(datetime)
 
     items = relationship("Item", back_populates="owner")
 
-
+# TODO: I don't use items at all.
 class Item(database.Base):
     __tablename__ = "items"
 
