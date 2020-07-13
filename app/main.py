@@ -5,13 +5,14 @@ Run from uvicorn main:app
 
 from typing import List
 
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 
 import crud
 import models
 import schemas
 from database import SessionLocal, engine
+from models import Patient
 
 models.database.Base.metadata.create_all(bind=engine)
 
@@ -34,4 +35,13 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     patients = crud.get_patients(db, skip=skip, limit=limit)
     print(patients)
     return patients
+
+@app.post("/add")
+async def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
+    patient = crud.create_patient(db, patient = patient)
+    print(patient)
+    return{
+        "code": "success",
+        "message": "patient created"
+    }
 
