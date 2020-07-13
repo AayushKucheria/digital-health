@@ -36,10 +36,10 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     print(patients)
     return patients
 
+
 @app.post("/add")
 async def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
-    patient = crud.create_patient(db, patient = patient)
-    print(patient)
+    patient = crud.create_patient(db)
     return{
         "code": "success",
         "message": "patient created"
