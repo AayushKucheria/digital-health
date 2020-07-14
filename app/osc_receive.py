@@ -79,7 +79,7 @@ if __name__ == "__main__":
         signal.signal(signal.SIGINT, exit_print)
 
     elif args.option == "record":
-        filename = ("data/" + "EMG_" + args.name + "_" + str(time.time()))
+        filename = ("data/" + "emg_" + args.name + "_" + str(time.time()) + ".csv")
         textfile = open(filename, "w")
         # textfile.write("time,address,messages\n")
         print("Recording to %s" % filename)

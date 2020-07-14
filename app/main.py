@@ -45,3 +45,8 @@ def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)
         raise HTTPException(status_code=400, detail="ID already registered")
     return crud.create_patient(db=db, patient=patient)
 
+# @app.post("/upload/")
+# def send_data(tablename: str, csv_path: str, db: Session = Depends(get_db)):
+
+
+
