@@ -43,7 +43,6 @@ class PatientCreate(PatientBase):
     # sex: str
     # ohgod: str
 
-
 # Schema for reading
 class Patient(PatientBase):
     id: int

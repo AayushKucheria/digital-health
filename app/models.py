@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 import database
 import datetime
@@ -12,10 +13,11 @@ class Patient(database.Base):
     name = Column(String)
     age = Column(Integer)
     sex = Column(String)
+    # date = Column(datetime)
 
     items = relationship("Item", back_populates="owner")
 
-# TODO: I don't use items at all.
+
 class Item(database.Base):
     __tablename__ = "items"
 
@@ -25,3 +27,5 @@ class Item(database.Base):
     patient_id = Column(Integer, ForeignKey("patients.id"))
 
     owner = relationship("Patient", back_populates="items")
+
+
