@@ -17,18 +17,18 @@ messages = []
 def csv_to_list():
     global name, messages
 
-    print("Starting conversion for file. Please specify name.")
+    print("Starting conversion for file.")
     file_list = glob.glob("data/*.csv")
 
     # If there are multiple csv files, ask to specify
     if len(file_list) > 1:
         print("Available Files:", file_list)
-        name = input("Please enter file name (without path or .csv): ")
+        names = input("Please copy files you want to upload and separate them with comma: ")  # Add checkbox view to web?
 
-    if name != "":
-        chosen = "data/" + name + ".csv"
+    if names != "":
+        chosen = names.split(',')
     else:
-        name = re.search(("data/(.*?).csv", file_list[0]))
+        name = file_list[0]
         chosen = file_list[0]
 
     # Convert chosen csv file to list

@@ -45,11 +45,13 @@ def close_file(*args):
     textfile.close()
     sys.exit(0)
 
+
 # connect server
 def connect_server():
     server = osc_server.ThreadingOSCUDPServer(
         (args.ip, args.port), dispatcher)
     server.serve_forever()
+
 
 if __name__ == "__main__":
 
@@ -57,14 +59,14 @@ if __name__ == "__main__":
     # Collect command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--ip",
-                        default="localhost", help="The ip to listen on")
+                        default="127.0.0.1", help="The ip to listen on")  # Was default="localhost"
     parser.add_argument("--port",
                         type=int, default=12345, help="The port to listen on")
     parser.add_argument("--address",
                         default="/openbci", help="address to listen to")
     parser.add_argument("--option",
-                        default="print", help="Debugger option")
-    parser.add_argument("--patient",
+                        default="record", help="Record to csv or print to terminal?")
+    parser.add_argument("--name",
                         default='test', help="The patient's name", required=True)
     parser.add_argument("--time",
                         default=3, type=int, help="How long to capture data in seconds")
@@ -77,16 +79,12 @@ if __name__ == "__main__":
         signal.signal(signal.SIGINT, exit_print)
 
     elif args.option == "record":
-        i = 0
-        while os.path.exists(("data/" + args.patient + "%s.csv") % i):
-            i += 1
-        filename = ("data/" + args.patient + "%i.csv") % i
+        filename = ("data/" + "EMG_" + args.name + "_" + str(time.time()))
         textfile = open(filename, "w")
         # textfile.write("time,address,messages\n")
         print("Recording to %s" % filename)
         dispatcher.map("/openbci", record_to_file)
         signal.signal(signal.SIGINT, close_file)
-
 
     # Display server attributes
     print('--------------------')
@@ -95,12 +93,10 @@ if __name__ == "__main__":
     print("IP:", args.ip)
     print("PORT:", args.port)
     print("ADDRESS:", args.address)
-    print("NAME:", args.patient)
+    print("NAME:", args.name)
     print("TIME:", args.time)
     print('--------------------')
     print("%s option selected" % args.option)
 
     signal.alarm(args.time)
     connect_server()
-
-
