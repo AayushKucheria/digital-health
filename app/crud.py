@@ -9,6 +9,11 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 from database import engine, inspector
+from psycopg2 import sql
+import pandas as pd
+from sqlalchemy.exc import IntegrityError
+# from psycopg2.
+
 
 from fastapi.responses import FileResponse
 
@@ -71,21 +76,44 @@ def create_emg_table(db: Session, tablename: String):
     return name
 
 
-# Add csv data to specified table
-def send_data(db: Session, tablename: str, csv_path: str):
-    # conn = engine.connect().connection
-    # cursor = conn.cursor()
-    # cursor.copy_from(data, tablename, columns=columns, sep=',', null='null')
-    # cursor.commit()
-    # # db.execute("INSERT INTO " + tablename + " VALUES (%s %s %s %s)", ())
-    # db.execute("COPY {} FROM '{}' DELIMITER ',' CSV;".format(tablename, csv_path))
-    # db.execute(("\COPY {} FROM '{}' (DELIMITER(','));".format(tablename, csv_path)))
+# # Add csv data to specified table
+# def send_data(db: Session, tablename: str, csv_path: str):
+#     # conn = engine.connect().connection
+#     # cursor = conn.cursor()
+#     # cursor.copy_from(data, tablename, columns=columns, sep=',', null='null')
+#     # cursor.commit()
+#     # # db.execute("INSERT INTO " + tablename + " VALUES (%s %s %s %s)", ())
+#     # db.execute("COPY {} FROM '{}' DELIMITER ',' CSV;".format(tablename, csv_path))
+#     # db.execute(("\COPY {} FROM '{}' (DELIMITER(','));".format(tablename, csv_path)))
+#
+#     copy_sql = "COPY {} FROM '{}' DELIMITER ',' CSV;".format(tablename, csv_path)
+#     openfile = open(csv_path, 'r')
+#     print(openfile)
+#     # temp_conn = engine.raw_connection()
+#     temp_curr = db.connection().connection.cursor() # temp_conn.cursor()
+#     temp_curr.copy_from(openfile, tablename, sep=',', null='')
+#     # temp_curr.copy_expert(copy_sql, openfile)
+#     db.commit()
 
-    copy_sql = "COPY {} FROM '{}' DELIMITER ',' CSV;".format(tablename, csv_path)
-    openfile = open(csv_path, 'r')
-    print(openfile)
-    # temp_conn = engine.raw_connection()
-    temp_curr = db.connection().connection.cursor() # temp_conn.cursor()
-    temp_curr.copy_from(openfile, tablename, sep=',', null='')
-    # temp_curr.copy_expert(copy_sql, openfile)
-    db.commit()
+# # Add csv data to specified table
+# def send_data(db: Session, tablename: str, data: list):
+#     print("Send data function running")
+#     print(data)
+#     for i in data:
+#         print(i)
+#         temp_curr = db.connection().connection.cursor()
+#         temp_curr.execute(
+#             sql.SQL("insert into {} values (%s, %s, %s, %s)")
+#             .format(sql.Identifier(tablename), float(i[0]), float(i[1]), float(i[2]), float(i[3])))
+#         print("Added one row")
+#     db.commit()
+
+def send_data(db: Session, tablename: str, csv_path: str):
+    df = pd.read_csv(csv_path)
+    conn = db.connection()
+    df.to_sql(tablename, con=conn, if_exists='replace', index=False)
+    try:
+        db.commit()
+    except IntegrityError as e:
+        raise ArithmeticError("Duplicate record exists")
+

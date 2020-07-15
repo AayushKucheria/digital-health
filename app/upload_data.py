@@ -5,6 +5,7 @@ from _csv import reader
 from sqlalchemy.orm import Session
 
 import crud
+import csv
 
 from database import SessionLocal
 import pandas as pd
@@ -37,9 +38,12 @@ def csv_to_list():  # Works for multiple files
     # Convert chosen csv files data to list
     for i in range(0, len(chosen)):
         with open(chosen[i], 'r') as read_obj:
-            csv_reader = reader(read_obj)
-            messages.append(list(csv_reader))
-            messages  # list(csv_reader)
+            csv_reader = csv.reader(read_obj)
+            for row in csv_reader:
+                messages[i].append(row)
+            # messages.append(list(csv_reader))
+            print(messages[i])
+            # messages  # list(csv_reader)
 
 
 # Find the max session for Patient and return max + 1 for next session
@@ -68,6 +72,7 @@ if __name__ == "__main__":
 
     # For each list (session), get the needed data from db
     # And create new table to store the data
+    i = 0
     for curr_table in table_names:
         # Get id of the patient if any
         data = curr_table.split('_')  # type, name, time
@@ -88,6 +93,8 @@ if __name__ == "__main__":
             finalname = crud.create_emg_table(db, str(finalname))  # (database, table name)
             #  TODO: Add messages to table
             path = "data/" + data[0] + "_" + data[1] + "_" + data[2] + ".csv"
-            print("FInalname: ", finalname)
-            print("Path: ", path)
+            # print("FInalname: ", finalname)
+            # print("Path: ", path)
             crud.send_data(db, csv_path=path, tablename=finalname)
+            # crud.send_data(db, finalname, messages[i])
+        i += 1
