@@ -6,6 +6,7 @@ Run from uvicorn main:app
 from typing import List
 
 from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 import crud
@@ -19,6 +20,22 @@ models.database.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 print(models.database.Base.metadata)
 
+# Allow communication with JS backend 
+
+origins = [
+    "http://localhost:3000"
+    "http://localhost",
+    "http://172.20.10.6:8081",
+    "http://172.20.10.6:8081",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Dependency
 def get_db():
