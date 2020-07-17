@@ -2,7 +2,7 @@
   <div class="addPatient">
     <button @click= "togglePatientForm" class = "btn btn-primary">Add New Patient</button>
 
-        <b-form @submit.prevent="handleSubmit" v-if="showPatientForm">
+        <b-form @submit="handleSubmit" v-if="showPatientForm">
           <b-form-group id="input-group-2" label="Patient's Name:" label-for="input-2">
             <b-form-input
               id="input-2"
