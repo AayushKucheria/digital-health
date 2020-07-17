@@ -2,7 +2,7 @@ export default {
   SET_PATIENTS (state, patients) {
     state.patients = patients
   },
-  appendPatient: (state, patient) => {
-    state.patients.push(patient)
+  ADD_PATIENT: (state, patient) => {
+    state.patients.unshift(patient)
   }
 }

@@ -5,7 +5,7 @@ var instance = axios.create({
   headers: {
     'Access-Control-Allow-Origin': '*',
     Accept: '*/*',
-    'Content-type': 'application/json'
+    'Content-type': 'application/json, application/x-www-form-urlencoded'
   }
 })
 

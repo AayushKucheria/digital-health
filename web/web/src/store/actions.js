@@ -17,8 +17,7 @@ export default {
     await PatientDataService.create(payload)
       .then(res => {
         console.log(res)
-        console.log(res.data)
-        commit('appendPatient', res.data)
+        commit('ADD_PATIENT', res.data)
       })
       .catch(err => {
         console.log('Network error')

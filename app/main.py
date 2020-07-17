@@ -57,6 +57,7 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 @app.post("/patients/", response_model=schemas.Patient)
 def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
     db_patient = crud.get_patient(db, patient_id=patient.id)
+    print ('db_patient',db_patient)
     if db_patient:
         raise HTTPException(status_code=400, detail="ID already registered")
     return crud.create_patient(db=db, patient=patient)
