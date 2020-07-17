@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script>
+    $(document).ready(function() {
+
+        $("#add_sex").click(function() {
+            $('.ui.modal').modal('show');
+        });
+
+        $("#add_age").click(function() {
+            $('.ui.modal').modal('show');
+        });
+
+        $("#add_name").click(function() {
+            $('.ui.modal').modal('show');
+        });
+
+        $("#add_id").click(function() {
+            $('.ui.modal').modal('show');
+        });
+
+
+    $("#save").click(function() {
+
+    var sex_raw = $("#sex").val();
+    var sex = sex_raw.split("\n");
+    var age_raw = $("#age").val();
+    var age = age_raw.split("\n");
+    var name_raw = $("#name").val();
+    var name = name_raw.split("\n");
+    var id_raw = $("#id").val();
+    var id = id_raw.split("\n");
+
+    $.ajax({
+      url: '/add/',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({"sex": sex,"age": age,"name": name,"id": id }),
+      dataType: 'json'
+    });
+
+    $('.ui.modal').modal('hide');
+  });
+});
+
+</script>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for patient in patients%}
+      <tr>
+        <td>{{patient.id}}</td>
+        <td>{{patient.name}}</td>
+        <td>{{patient.age}}</td>
+        <td>{{patient.gender}}</td>
+      </tr>
+  </tbody>
+</table>
+
+<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Add Patients
+    </div>
+    <div class="content">
+        <div class="ui form">
+
+             <div class="field">
+              <label>Gender</label>
+              <textarea id="sex"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Age</label>
+              <textarea id="age"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Patient's name</label>
+              <textarea id="name"></textarea>
+            </div>
+           
+            <div class="field">
+              <label>ID</label>
+              <textarea id="id"></textarea>
+            </div>
+
+          </div>
+    </div>
+    <div class="actions">
+      <div id="save" class="ui positive right labeled icon button">
+        Add Patient
+        <i class="plus icon"></i>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

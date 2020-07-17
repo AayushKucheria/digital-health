@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital-health</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+<body>
+
+    <div class="ui container">
+        <h2>Stock Screener</h2>
+    
+        {% block content%}
+        {% endblock %}
+    </div>
+
+    
+    <h2>Add patients</h2> 
+    <div>
+        <p>Name <input id = "new_input"> </p>
+        <p>Age <input id = "new_input"> </p>
+        <p>Gender <input id = "new_input"> </p>
+        <p>EMG / EEG <input id = "new_input"> </p>
+    </div>
+    <button>Submit</button>
+
+    <h2>View result</h2>
+    <p>TO DO: This will be a table, listing all patients name and their result</p>
+    
+    
+</body>
+</html>
