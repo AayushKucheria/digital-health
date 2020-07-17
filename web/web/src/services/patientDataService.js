@@ -1,24 +1,34 @@
-import axios from '../http-common'
+import axios from 'axios'
+
+var instance = axios.create({
+  baseURL: 'http://127.0.0.1:8000/patients',
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    Accept: '*/*',
+    'Content-type': 'application/json'
+  }
+})
 
 class PatientDataService {
   getAll () {
-    return axios.get('/')
+    instance.defaults.timeout = 2500
+    return instance.get('/')
   }
 
   get (id) {
-    return axios.get('/$id')
+    return instance.get('/$id')
   }
 
   create (data) {
-    return axios.post('/', data)
+    return instance.post('/', data)
   }
 
   update (id, data) {
-    return axios.put('/$id', data)
+    return instance.put('/$id', data)
   }
 
   delete (id) {
-    return axios.delete('/$id')
+    return instance.delete('/$id')
   }
 }
 

@@ -23,11 +23,11 @@ export default {
   },
   computed: {
     ...mapState([
-      'dummyPatients'
+      'patients'
     ])
   },
   mounted () {
-    const patient = this.dummyPatients[this.$route.params.id]
+    const patient = this.patients[this.$route.params.id]
     this.patient = patient
     console.log(patient)
   }

@@ -1,51 +1,28 @@
 <template>
-  <div>
-    <h1> Lists of patients </h1>
-    <ul class="list-group">
-      <li class="list-group-item"
-        :class="{ active: index == currentIndex }"
-        v-for="(patient, index) in patients"
-        :key="index"
-        @click="setActivePatient(patient, index)"
-      >
-      </li>
-    </ul>
-  </div>
+    <div>
+      <h1> Lists of patients </h1>
+        <b-table striped hover :items="patients">
+        <template v-slot:cell(name)="data">
+          <router-link :to="`/patients/${data.index}`">
+            {{ data.value }}
+          </router-link>
+        </template>
+      </b-table>
+    </div>
 </template>
 
 <script>
-import PatientDataService from '../services/patientDataService'
+import { mapState } from 'vuex'
 
 export default {
-  name: 'retrievePatients',
-  data () {
-    return {
-      patients: [],
-      currentIndex: -1
-    }
+  name: 'patients',
+  mounted () {
+    this.$store.dispatch('loadPatients')
   },
-  methods: {
-    retrievePatients () {
-      PatientDataService.getAll()
-        .then(res => {
-          console.log(res)
-          console.log(res.data)
-        })
-        .catch(err => {
-          console.log('Something is wrong')
-          console.log(err)
-        })
-    },
-    refreshList () {
-      this.retrievePatients()
-      this.currentIndex = -1
-    },
-    setActiveTutorial (index) {
-      this.currentIndex = index
-    },
-    mounted () {
-      this.retrievePatients()
-    }
+  computed: {
+    ...mapState([
+      'patients'
+    ])
   }
 }
 </script>

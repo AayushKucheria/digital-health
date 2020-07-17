@@ -25,8 +25,7 @@ print(models.database.Base.metadata)
 origins = [
     "http://localhost:3000"
     "http://localhost",
-    "http://172.20.10.6:8081",
-    "http://172.20.10.6:8081",
+    "http://localhost:8081"
 ]
 
 app.add_middleware(

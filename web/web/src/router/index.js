@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import addPatient from '../components/addPatient.vue'
-import Patients from '../views/Patients.vue'
+import Patients from '../components/Patients.vue'
 import Patient from '../views/Patient.vue'
 
 Vue.use(VueRouter)
