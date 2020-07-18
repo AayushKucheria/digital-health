@@ -16,7 +16,7 @@ class PatientDataService {
   }
 
   get (id) {
-    return instance.get('/$id')
+    return instance.get(`/${id}`)
   }
 
   create (data) {

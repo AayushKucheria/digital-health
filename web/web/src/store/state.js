@@ -1,3 +1,4 @@
 export default {
-  patients: []
+  patients: [],
+  patient: []
 }
