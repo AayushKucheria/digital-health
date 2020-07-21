@@ -120,6 +120,7 @@ pip-selfcheck.json
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+app/config.py
 
 # Gradle:
 .idea/gradle.xml

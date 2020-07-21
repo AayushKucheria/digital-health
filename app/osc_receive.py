@@ -1,14 +1,13 @@
 '''
 Getting data from OPENBCI device and storing it in a csv
-Run file with params --> --ip='' --port=12345 --option='record --patient='aayush kucheria' --time=180
+Run file with params --> --patient='aayush kucheria' --time=180
 '''
 
 import argparse
-import time
-import os
+import datetime
 import signal
 import sys
-import datetime
+import time
 
 from pythonosc import dispatcher
 from pythonosc import osc_server

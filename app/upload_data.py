@@ -1,17 +1,16 @@
+'''
+Upload csv data to database
+'''
+
+import csv
 import glob
 import re
-from _csv import reader
 
+import numpy as np
 from sqlalchemy.orm import Session
 
 import crud
-import csv
-
 from database import SessionLocal
-import pandas as pd
-import numpy as np
-from sqlalchemy import MetaData, Table, Column, Integer, Float, String
-
 
 messages = [[]]
 chosen = [[]]
@@ -28,7 +27,7 @@ def csv_to_list():  # Works for multiple files
     if len(file_list) > 1:
         print("Available Files:", file_list)
         names = input(
-            "Please copy files you want to upload and separate them with comma: ")  # Add checkbox view to web?
+            "Please copy files you want to upload and separate them with comma: ")  # TODO: Add checkbox view to web?
 
         if names != "":
             chosen = names.split(',')
@@ -41,15 +40,12 @@ def csv_to_list():  # Works for multiple files
             csv_reader = csv.reader(read_obj)
             for row in csv_reader:
                 messages[i].append(row)
-            # messages.append(list(csv_reader))
             print(messages[i])
-            # messages  # list(csv_reader)
 
 
 # Find the max session for Patient and return max + 1 for next session
 def session(mtype: str, mid: int, all_tables: np.array):
-    sessions = []
-    sessions.append(1)
+    sessions = [1]
     for i in all_tables:
         if i[0] == mtype and i[1] == mid:
             sessions.append(i[2])
@@ -65,12 +61,12 @@ if __name__ == "__main__":
     table_names = []
     for filename in chosen:
         table_names.append(
-            re.search("data/(.*?).csv", filename).group(1))  # WORKS: Get table name from csv filename (the middle part)
-    table_names.sort(key=lambda x: float(x.split('_')[2]))  # Sorting works
+            re.search("data/(.*?).csv", filename).group(1))  # Gets table name from csv filename (the middle part)
+    table_names.sort(key=lambda x: float(x.split('_')[2]))  # Sorting wrt time
 
     db: Session = SessionLocal()
 
-    # For each list (session), get the needed data from db
+    # For each list (session), get the needed patient data from db
     # And create new table to store the data
     i = 0
     for curr_table in table_names:
@@ -86,15 +82,14 @@ if __name__ == "__main__":
             tables_list = crud.get_tables_by_name(db)
             table_list_data = np.array([x.split('_') for x in tables_list])  # Array of (type, id, session number)
 
-            # Get relevant table names
+            # Get relevant table name
             session_number = session(recording_type, patient.id, table_list_data)
             finalname = str(patient.id) + "_" + str(session_number)
             print(type(patient.id))
             finalname = crud.create_emg_table(db, str(finalname))  # (database, table name)
-            #  TODO: Add messages to table
+
             path = "data/" + data[0] + "_" + data[1] + "_" + data[2] + ".csv"
-            # print("FInalname: ", finalname)
-            # print("Path: ", path)
+
+            # Send data to database
             crud.send_data(db, csv_path=path, tablename=finalname)
-            # crud.send_data(db, finalname, messages[i])
         i += 1
