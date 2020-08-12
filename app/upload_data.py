@@ -8,6 +8,7 @@ import re
 
 import numpy as np
 from sqlalchemy.orm import Session
+import pandas as pd
 
 import crud
 from database import SessionLocal
@@ -37,10 +38,14 @@ def csv_to_list():  # Works for multiple files
     # Convert chosen csv files data to list
     for i in range(0, len(chosen)):
         with open(chosen[i], 'r') as read_obj:
-            csv_reader = csv.reader(read_obj)
-            for row in csv_reader:
-                messages[i].append(row)
+            messages.append(pd.read_csv(read_obj))
             print(messages[i])
+    # for i in range(0, len(chosen)):
+    #     with open(chosen[i], 'r') as read_obj:
+    #         csv_reader = csv.reader(read_obj)
+    #         for row in csv_reader:
+    #             messages[i].append(row)
+    #         print(messages[i])
 
 
 # Find the max session for Patient and return max + 1 for next session
