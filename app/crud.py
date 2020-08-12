@@ -32,11 +32,24 @@ def get_patients(db: Session, skip: int = 0, limit: int = 100):
 def get_tables_by_name(db: Session):
     return inspector.get_table_names()
 
+def get_session_tables(db: Session):
+    allTables = get_tables_by_name(db)
+    print("All tables:")
+    print(allTables)
+    print("Filtered tables:")
+    a = [k for k in allTables if '_' in k]
+    print(a)
+    return a
+
 
 ### Creating data ###
 
+# TODO:
+# Edit patient
+# Manual ID SOLVED
+# Get only emg and eeg tables (filter patients and datasets)
 def create_patient(db: Session, patient: schemas.PatientCreate):
-    db_patient = models.Patient(age=patient.age, sex=patient.sex, name=patient.name)
+    db_patient = models.Patient(age=patient.age, sex=patient.sex, name=patient.name, id=patient.id)
     db.add(db_patient)
     db.commit()
     db.refresh(db_patient)
@@ -60,10 +73,13 @@ def create_emg_table(db: Session, tablename: String):
 
 # Add csv data to specified table
 def send_data(db: Session, tablename: str, csv_path: str):
+    print("Sending data...")
     df = pd.read_csv(csv_path)
     conn = db.connection()
     df.to_sql(tablename, con=conn, if_exists='replace', index=False)
     try:
         db.commit()
+        print("Data sent successfully.")
     except IntegrityError as e:
         raise ArithmeticError("Duplicate record exists")
+
