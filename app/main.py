@@ -54,7 +54,7 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 # Create a patient in database when a "Patient" query has been sent
 @app.post("/patients/", response_model=schemas.Patient)
 def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
-    db_patient = crud.get_patient(db, patient_id=patient.id)
+    db_patient = crud.get_patient_by_id(db, patient_id=patient.id)
     print ('db_patient',db_patient)
     if db_patient:
         raise HTTPException(status_code=400, detail="ID already registered")

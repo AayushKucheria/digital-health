@@ -17,7 +17,7 @@ from database import engine, inspector
 
 ### Reading Data ###
 
-def get_patient(db: Session, patient_id: int):
+def get_patient_by_id(db: Session, patient_id: int):
     return db.query(models.Patient).filter(models.Patient.id == patient_id).first()
 
 
@@ -30,15 +30,25 @@ def get_patients(db: Session, skip: int = 0, limit: int = 100):
 
 
 def get_tables_by_name(db: Session):
+    """
+    Get all table names from database
+
+    :param db: Current database session
+    :return: List[String] of all table names
+    """
     return inspector.get_table_names()
 
+
+# Get only emg and eeg tables (filter patients and datasets)
 def get_session_tables(db: Session):
+    """
+    Get only emg and eeg sessions names from database.
+
+    :param db: Current database session
+    :return: List[String] of emg and eeg table names
+    """
     allTables = get_tables_by_name(db)
-    print("All tables:")
-    print(allTables)
-    print("Filtered tables:")
     a = [k for k in allTables if '_' in k]
-    print(a)
     return a
 
 
@@ -46,8 +56,6 @@ def get_session_tables(db: Session):
 
 # TODO:
 # Edit patient
-# Manual ID SOLVED
-# Get only emg and eeg tables (filter patients and datasets)
 def create_patient(db: Session, patient: schemas.PatientCreate):
     db_patient = models.Patient(age=patient.age, sex=patient.sex, name=patient.name, id=patient.id)
     db.add(db_patient)
@@ -56,19 +64,19 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
     return db_patient
 
 
-# TODO: Ability to specify number of channels? Or hardcode it
-def create_emg_table(db: Session, tablename: String):
-    metadata = MetaData()
-    # name = String("{}_{}_{}".format(type, id, session))
-    name = "emg_" + tablename
-    table = Table(name, metadata,
-                  Column('timestamp', Integer, primary_key=True),
-                  Column('Channel 1', Float, nullable=False),
-                  Column('Channel 2', Float, nullable=False),
-                  Column('Channel 3', Float, nullable=False),
-                  Column('Channel 4', Float, nullable=False))
-    metadata.create_all(engine)
-    return name
+## REPLACED WITH send_data() for a general usecase
+# def create_emg_table(db: Session, tablename: String):
+#     metadata = MetaData()
+#     # name = String("{}_{}_{}".format(type, id, session))
+#     name = "emg_" + tablename
+#     table = Table(name, metadata,
+#                   Column('timestamp', Integer, primary_key=True),
+#                   Column('Channel 1', Float, nullable=False),
+#                   Column('Channel 2', Float, nullable=False),
+#                   Column('Channel 3', Float, nullable=False),
+#                   Column('Channel 4', Float, nullable=False))
+#     metadata.create_all(engine)
+#     return name
 
 
 # Add csv data to specified table
