@@ -9,7 +9,7 @@ export default {
         commit('SET_PATIENTS', res.data)
       })
       .catch(err => {
-        console.log('Network error')
+        console.log('Network error when fetch all patients')
         console.log(err)
       })
   },
@@ -22,7 +22,7 @@ export default {
         commit('SET_PATIENT', res.data)
       })
       .catch(err => {
-        console.log('Network error')
+        console.log('Network error when fetch 1 patient')
         console.log(err)
       })
   },
@@ -33,7 +33,7 @@ export default {
         commit('ADD_PATIENT', res.data)
       })
       .catch(err => {
-        console.log('Network error')
+        console.log('Network error when adding patient')
         console.log(err)
       })
   }

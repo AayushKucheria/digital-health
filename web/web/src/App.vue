@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/patients">Patient List</router-link> |
+      <router-link to="/patients">Patient List</router-link> ||
       <router-link to="/addPatient">Add Patient</router-link>
     </div>
     <b-container>
@@ -16,7 +16,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #2a3a49;
+  font-size: 2em;
 }
 
 #nav {
@@ -24,7 +25,7 @@
 
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #2d3944;
 
     &.router-link-exact-active {
       color: #3c6dd6;

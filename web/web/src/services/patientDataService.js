@@ -3,9 +3,9 @@ import axios from 'axios'
 var instance = axios.create({
   baseURL: 'http://127.0.0.1:8000/patients',
   headers: {
-    'Access-Control-Allow-Origin': '*',
-    Accept: '*/*',
-    'Content-type': 'application/json, application/x-www-form-urlencoded'
+    // 'Access-Control-Allow-Origin': '*',
+    // Accept: '*/*',
+    // 'Content-type': 'application/json, application/x-www-form-urlencoded'
   }
 })
 

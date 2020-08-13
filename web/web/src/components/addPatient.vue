@@ -2,7 +2,7 @@
   <div class="addPatient">
     <button @click= "togglePatientForm" class = "btn btn-primary">Add New Patient</button>
 
-        <b-form @submit="handleSubmit" v-if="showPatientForm">
+        <b-form @submit.prevent="handleSubmit" v-if="showPatientForm">
           <b-form-group id="input-group-1" label="Patient's Name:" label-for="input-1">
             <b-form-input
               id="input-1"
@@ -59,7 +59,7 @@ export default {
     return {
       showPatientForm: false,
       formData: {
-        sex: null,
+        sex: '',
         age: 0,
         name: '',
         id: 0
@@ -83,7 +83,7 @@ export default {
       }
       this.addPatient(payload)
       this.formData = {
-        sex: null,
+        sex: '',
         age: 0,
         name: '',
         id: 0
