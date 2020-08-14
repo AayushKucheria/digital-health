@@ -13,7 +13,7 @@ export default {
         console.log(err)
       })
   },
-  // TO DO: Load patient by ID
+  // TODO: Load patient by ID
   async loadPatient ({ commit }, id) {
     await PatientDataService.get(id)
       .then(res => {
@@ -37,7 +37,7 @@ export default {
         console.log(err)
       })
   },
-  //  TO DO: EDIT and DELETE patient by ID
+  //  TODO: EDIT and DELETE patient by ID
   async deletePatient ({ commit }, id) {
     await PatientDataService.delete(id)
       .then(res => {

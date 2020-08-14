@@ -87,7 +87,8 @@ def send_data(db: Session, tablename: str, csv_path: str):
     df.to_sql(tablename, con=conn, if_exists='replace', index=False)
     try:
         db.commit()
-        print("Data sent successfully.")
+        return True
     except IntegrityError as e:
-        raise ArithmeticError("Duplicate record exists")
+        # raise ArithmeticError("Duplicate record exists")
+        return False
 

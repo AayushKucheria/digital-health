@@ -25,7 +25,8 @@ def csv_to_list():
     :return: Unit
     """
     global messages, chosen
-
+    messages = []
+    chosen = []
     file_list = glob.glob("data/*.csv")
 
     # If there are multiple csv files, ask to specify
@@ -65,11 +66,10 @@ def session(mtype: str, mid: int, all_tables: np.array):
     for i in all_tables:
         if i[0] == mtype and int(i[1]) == mid:
             sessions.append(int(i[2]))  # Append session number for i
-    return max(sessions) + 1  
+    return max(sessions) + 1
 
 
-if __name__ == "__main__":
-
+def start():
     # Inserting csv values in list of list 'messages'
     csv_to_list()
     for i in messages:
@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     # Set table name (acc to DB), create the table, and upload data to it
     for curr_table in table_names:
-        
+
         data = curr_table.split('_')  # (type, name, time)
         recording_type: str = str(data[0]).lower()
         name = str(data[1]).lower()
@@ -96,7 +96,7 @@ if __name__ == "__main__":
         patient = crud.get_patient_by_name(db, name)
         if patient is None:
             print("Patient doesn't exist. Create patient first.")
-        
+
         # All is okay, continue.
         # Get all table names from db --> Get new session number for this patient
         # --> Set tableName (replace time with session)
@@ -115,3 +115,7 @@ if __name__ == "__main__":
             print("FinalName: ", finalName)
             # Send data to database
             crud.send_data(db, csv_path=path, tablename=finalName)
+
+
+if __name__ == "__main__":
+    start()
