@@ -17,7 +17,7 @@
           <b-button
           variant="success"
           class="btns"
-          @click="getEdit">Edit</b-button>
+          @click.prevent="getEdit">Edit</b-button>
           <b-button variant="danger" class="btns">Delete</b-button>
         </div>
       </div>

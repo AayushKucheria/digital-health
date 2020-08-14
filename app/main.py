@@ -55,9 +55,11 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 
 
 ## I am trying work work on a short example here ....patient_id might need to be str
-@app.get("/patients/{patient_id}", response_model=List[schemas.Patient])
-def read_patient(patient_id: str, db: Session = Depends(get_db)):
-    patient = crud.get_patient_by_id(db, int(patient_id))
+@app.get("/patients/{patient_id}", response_model=schemas.Patient)
+def read_patient(patient_id: int, db: Session = Depends(get_db)):
+    patient = crud.get_patient_by_id(db, patient_id=patient_id)
+    if patient is None:
+        raise HTTPException(status_code=404, detail="User not found")
     print(patient)
     return patient
 

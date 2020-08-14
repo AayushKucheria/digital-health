@@ -1,3 +1,4 @@
+
 export default {
   patientsList: state => state.patients,
   getPatientById: (state) => (id) => {
