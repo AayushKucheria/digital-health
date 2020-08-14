@@ -24,11 +24,11 @@ class PatientDataService {
   }
 
   update (id, data) {
-    return instance.put('/$id', data)
+    return instance.put(`/${id}`, data)
   }
 
   delete (id) {
-    return instance.delete('/$id')
+    return instance.delete(`/${id}`)
   }
 }
 

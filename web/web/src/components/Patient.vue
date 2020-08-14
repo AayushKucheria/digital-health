@@ -12,16 +12,21 @@
           <h5>Age: {{ patient.age}}</h5>
           <h5>Record: {{ patient.record}}</h5>
           <br>
-        <a href="#" class="btn btn-primary">Edit</a>
-        <a href="#" class="btn btn-primary">Delete</a>
+        <div class="btns">
+          <b-button variant="info" class="btns">Run Model</b-button>
+          <b-button
+          variant="success"
+          class="btns"
+          @click="getEdit">Edit</b-button>
+          <b-button variant="danger" class="btns">Delete</b-button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -31,12 +36,29 @@ export default {
   computed: {
     ...mapState([
       'patients'
+    ]),
+    ...mapGetters([
+      'patientsList',
+      'getPatientById'
     ])
   },
-  mounted () {
+  methods: {
+    ...mapActions([
+      'loadPatient',
+      'deletePatient'
+    ]),
+    getEdit () {
+      console.log('edit')
+      console.log(this.patient.id)
+      this.loadPatient(this.patient.id)
+    }
+  },
+  created () {
     const patient = this.patients[this.$route.params.id]
     this.patient = patient
-    console.log(patient)
+    // console.log(this.patient.id)
+    // var id = this.getPatientById(this.patient.id)
+    // console.log(id)
   }
 }
 </script>
@@ -44,5 +66,10 @@ export default {
 <style>
   a.btn{
     margin: 0 0.5rem;
+    padding: 0 0.5rem;
+  }
+  .btns{
+    margin: 0 0.5rem;
+    padding: 0.5 1rem;
   }
 </style>

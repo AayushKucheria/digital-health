@@ -19,7 +19,7 @@ export default {
       .then(res => {
         console.log(res)
         console.log(res.data)
-        commit('SET_PATIENT', res.data)
+        commit('SET_PATIENT', id)
       })
       .catch(err => {
         console.log('Network error when fetch 1 patient')
@@ -36,6 +36,18 @@ export default {
         console.log('Network error when adding patient')
         console.log(err)
       })
-  }
+  },
   //  TO DO: EDIT and DELETE patient by ID
+  async deletePatient ({ commit }, id) {
+    await PatientDataService.delete(id)
+      .then(res => {
+        console.log(res)
+        console.log(res.data)
+        commit('REMOVE_PATIENT', id)
+      })
+      .catch(err => {
+        console.log('Network error when delete 1 patient')
+        console.log(err)
+      })
+  }
 }

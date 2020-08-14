@@ -21,16 +21,16 @@ print(models.database.Base.metadata)
 
 # Allow communication with JS backend 
 
-origins = [
-    "http://localhost:3000"
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:8081"
-]
+# origins = [
+#     "http://localhost:3000"
+#     "http://localhost",
+#     "http://localhost:8080",
+#     "http://localhost:8081"
+# ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,6 +50,13 @@ def get_db():
 def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     patients = crud.get_patients(db, skip=skip, limit=limit)
     return patients
+
+## I am trying work work on a short example here ....patient_id might need to be str
+@app.get("/patients/{patient_id}", response_model=List[schemas.Patient])
+def read_patient(patient_id: str, db: Session = Depends(get_db)):
+    patient = crud.get_patient_by_id(db, int(patient_id))
+    print(patient)
+    return patient
 
 
 # Create a patient in database when a "Patient" query has been sent

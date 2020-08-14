@@ -17,7 +17,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2a3a49;
-  font-size: 2em;
+  font-size: 1em;
 }
 
 #nav {
@@ -26,9 +26,11 @@
   a {
     font-weight: bold;
     color: #2d3944;
+    font-size: 2em;
 
     &.router-link-exact-active {
       color: #3c6dd6;
+      font-size: 2em;
     }
   }
 }
