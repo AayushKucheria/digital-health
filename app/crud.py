@@ -26,7 +26,19 @@ def get_patient_by_name(db: Session, patient_name: str):
 
 
 def get_patients(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Patient).offset(skip).limit(limit).all()
+    return db.query(models.Patient).offset(skip).limit(limit).all()  # .all() returns the object as a list
+
+
+def get_results(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Result).offset(skip).limit(limit).all()
+
+
+def get_results_by_patient_id(db: Session, p_id: int):
+    return db.query(models.Result).filter(models.Result.patient_id == p_id).all()
+
+
+def get_last_result_by_patient_id(db: Session, p_id: int):
+    return get_results_by_patient_id(db).last()
 
 
 def get_tables_by_name(db: Session):
@@ -91,4 +103,3 @@ def send_data(db: Session, tablename: str, csv_path: str):
     except IntegrityError as e:
         # raise ArithmeticError("Duplicate record exists")
         return False
-
