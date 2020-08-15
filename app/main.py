@@ -64,6 +64,26 @@ def read_patient(patient_id: int, db: Session = Depends(get_db)):
     return patient
 
 
+# Copied from read_patient()
+@app.get("/patients/{patient_id}", response_model=schemas.Patient)
+def read_patient_results_all(patient_id: int, db: Session = Depends(get_db)):
+    results = crud.get_results_by_patient_id(db, patient_id)
+    if results is None:
+        raise HTTPException(status_code=404, detail="No results yet.")
+    print(results)
+    return results
+
+
+# Copied from read_patient()
+@app.get("/patients/{patient_id}", response_model=schemas.Patient)
+def read_patient_results_latest(patient_id: int, db: Session = Depends(get_db)):
+    results = crud.get_last_result_by_patient_id(db, patient_id)
+    if results is None:
+        raise HTTPException(status_code=404, detail="No results yet.")
+    print(results)
+    return results
+
+
 # Create a patient in database when a "Patient" query has been sent
 @app.post("/patients/", response_model=schemas.Patient)
 def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
