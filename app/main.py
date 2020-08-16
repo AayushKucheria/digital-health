@@ -46,8 +46,6 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     patients = crud.get_patients(db, skip=skip, limit=limit)
     return patients
 
-
-## I am trying work work on a short example here ....patient_id might need to be str
 @app.get("/patients/{patient_id}", response_model=schemas.Patient)
 def read_patient(patient_id: int, db: Session = Depends(get_db)):
     patient = crud.get_patient_by_id(db, patient_id=patient_id)
@@ -56,6 +54,13 @@ def read_patient(patient_id: int, db: Session = Depends(get_db)):
     print(patient)
     return patient
 
+@app.get("/patients/{p_id}/result", response_model=schemas.Result)
+def read_result(patient_id: int, db: Session = Depends(get_db)):
+    result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="User session result not found")
+    print(result)
+    return result
 
 # Create a patient in database when a "Patient" query has been sent
 @app.post("/patients/", response_model=schemas.Patient)
@@ -66,25 +71,29 @@ def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)
         raise HTTPException(status_code=400, detail="ID already registered")
     return crud.create_patient(db=db, patient=patient)
 
+### Creating result ####
+# @app.post("/patients/{patient_id}/results", response_model=schemas.Result)
+# def create_patient_result(result:schemas.ResultCreate, patient_id: int, db: Session = Depends(get_db)):
+#     print ("Reach to create patient result")
+#     return crud.create_patient_result(db=db, result=result, patient_id=result.patient_id)
 
 # Upload csv files for a specific patient by clicking button from the patient's page?
 # Param: id or name to get the correct files
 # Returns true if successful false if not
 @app.post("/patients/{patient_id}", response_model=List[schemas.Patient])
-def upload_csv(patient_id: str, db: Session = Depends(get_db)):
+def upload_csv(patient_id: int, db: Session = Depends(get_db)):
     print("Method executing")
     return upload_data.start()
 
-
-@app.post("/patients/{patient_id}", response_model=List[schemas.Patient])
+@app.post("/patients/{patient_id}/kmean", response_model=List[schemas.Patient])
 def k_means(patient_id: str, db: Session = Depends(get_db)):
     print("K-Means executing")
     upload_data.start()  # Replace with k_means.start()
     #  return results from database
 
-
-@app.post("/patients/{patient_id}", response_model=List[schemas.Patient])
+@app.post("/patients/{patient_id}/dlearn", response_model=List[schemas.Patient])
 def deep_learning(patient_id: str, db: Session = Depends(get_db)):
     print("Deep Learning executing")
     upload_data.start()  # Replace with dl.start()
     #  return results from database
+    return "Hello from deepLearn"

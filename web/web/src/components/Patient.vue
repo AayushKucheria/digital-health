@@ -6,18 +6,16 @@
         <h2>Patient Information</h2>
       </div>
       <div class="card-body">
-          <h5>ID: {{ patient.id }}</h5>
-          <h5>Patient name: {{ patient.name}}</h5>
-          <h5>Gender: {{ patient.sex}}</h5>
-          <h5>Age: {{ patient.age}}</h5>
-          <h5>Record: {{ patient.record}}</h5>
-          <br>
+        <h5>
+          <div class="infoText" v-for="(name, value) in patient" :key="name.id">
+            {{value}}: {{name}}
+          </div>
+        </h5>
         <div class="btns">
-          <b-button variant="info" class="btns">Run Model</b-button>
-          <b-button
-          variant="success"
-          class="btns"
-          @click.prevent="getEdit">Edit</b-button>
+          <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/dlearn`)">Run Deep Learn</b-button>
+          <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/kmean`)">Run K-Mean</b-button>
+          <b-button variant="success" class="btns" @click="$router.push('upload')">Upload session</b-button>
+          <b-button variant="info" class="btns" @click.prevent="getEdit">Edit</b-button>
           <b-button variant="danger" class="btns">Delete</b-button>
         </div>
       </div>
@@ -50,7 +48,7 @@ export default {
     getEdit () {
       console.log('edit')
       console.log(this.patient.id)
-      this.loadPatient(this.patient.id)
+      this.loadPatient(this.$route.params.id)
     }
   },
   created () {

@@ -38,7 +38,7 @@ def get_results_by_patient_id(db: Session, p_id: int):
 
 
 def get_last_result_by_patient_id(db: Session, p_id: int):
-    // return get_results_by_patient_id(db, p_id).last()
+    # return get_results_by_patient_id(db, p_id).last()
     return db.query(models.Result).filter(models.Result.patient_id == p_id).last()
 
 
@@ -76,6 +76,13 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
     db.refresh(db_patient)
     return db_patient
 
+### Creating result ####
+def create_patient_result(db: Session, result: schemas.ResultCreate, patient_id: int):
+    db_result = models.Result(**result.dict(), patient_id=patient_id)
+    db.add(db_result)
+    db.commit()
+    db.refresh(db_result)
+    return db_result
 
 ## REPLACED WITH send_data() for a general usecase
 # def create_emg_table(db: Session, tablename: String):

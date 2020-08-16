@@ -6,7 +6,7 @@ export default {
       .then(res => {
         console.log(res)
         console.log(res.data)
-        commit('SET_PATIENTS', res.data)
+        commit('GET_PATIENTS', res.data)
       })
       .catch(err => {
         console.log('Network error when fetch all patients')
@@ -19,7 +19,7 @@ export default {
       .then(res => {
         console.log(res)
         console.log(res.data)
-        commit('SET_PATIENT', id)
+        commit('GET_PATIENT', id)
       })
       .catch(err => {
         console.log('Network error when fetch 1 patient')
@@ -34,6 +34,32 @@ export default {
       })
       .catch(err => {
         console.log('Network error when adding patient')
+        console.log(err)
+      })
+  },
+  // Get KM model result
+  async loadKMResult ({ commit }, id) {
+    await PatientDataService.getKMResult(id)
+      .then(res => {
+        console.log(res)
+        console.log(res.data)
+        commit('GET_PATIENT', id)
+      })
+      .catch(err => {
+        console.log('Network error when fetch 1 patient')
+        console.log(err)
+      })
+  },
+  // Get DL Model result
+  async loadDLResult ({ commit }, id) {
+    await PatientDataService.getDLResult(id)
+      .then(res => {
+        console.log(res)
+        console.log(res.data)
+        commit('GET_PATIENT', id)
+      })
+      .catch(err => {
+        console.log('Network error when fetch 1 patient')
         console.log(err)
       })
   },

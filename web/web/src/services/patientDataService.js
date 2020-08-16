@@ -16,11 +16,19 @@ class PatientDataService {
   }
 
   get (id) {
-    return instance.get(`/${id}`) // Alright... I've been trying to get the real ID from a specific patient when clicked... Just get it now.  Now I can get access to patient with ID. There is logic for delete also. So I'll need to work on make that happens and then find a way to run model from front end
+    return instance.get(`/${id}`)
   }
 
   create (data) {
     return instance.post('/', data)
+  }
+
+  getKMResult (id) {
+    return instance.post(`/${id}/kmean`, id)
+  }
+
+  getDLResult (id) {
+    return instance.post(`/${id}/dlearn`, id)
   }
 
   update (id, data) {
