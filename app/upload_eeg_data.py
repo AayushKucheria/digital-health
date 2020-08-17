@@ -103,5 +103,5 @@ def start(patient_id: int):
 if __name__ == "__main__":
     # start(17)  # id for aayushkucheria
     db: Session = SessionLocal
-    a = crud.get_session_tables_by_id(db, 17)
+    a = crud.get_latest_session_table_by_id(db, 17)
     print(a)
