@@ -61,9 +61,8 @@ def get_session_tables(db: Session):
     :return: List[String] of emg and eeg table names
     """
     allTables = get_tables_by_name(db)
-    a = [k for k in allTables if '_' in k]
+    a = [k for k in allTables if 'session' in k]
     return a
-
 
 ### Creating data ###
 
@@ -104,7 +103,7 @@ def send_data(db: Session, tablename: str, csv_path: str):
     print("Sending data...")
     df = pd.read_csv(csv_path)
     conn = db.connection()
-    df.to_sql(tablename, con=conn, if_exists='replace', index=False)
+    df.to_sql("session_" + tablename, con=conn, if_exists='replace', index=False)
     try:
         db.commit()
         return True

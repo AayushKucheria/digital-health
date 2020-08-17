@@ -6,12 +6,12 @@ from database import engine
 
 if __name__ == "__main__":
 
-    file_list = glob.glob("data/train/*.csv")
+    file_list = glob.glob("data/bonn_dataset/*.csv")
     df = []
 
     # Save name and contents of each file as a dataframe to df (list)
     for i in range(0, len(file_list)):
-        name = re.search("data/train/(.*?).csv", file_list[i]).group(1)
+        name = re.search("data/bonn_dataset/(.*?).csv", file_list[i]).group(1)
         with open(file_list[i], 'r') as read_obj:
             df.append((name, pd.read_csv(read_obj, index_col=0)))
 
