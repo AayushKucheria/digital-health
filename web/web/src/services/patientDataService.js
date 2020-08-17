@@ -24,11 +24,11 @@ class PatientDataService {
   }
 
   getKMResult (id) {
-    return instance.post(`/${id}/kmean`, id)
+    return instance.get(`/${id}/kmean`, id)
   }
 
   getDLResult (id) {
-    return instance.post(`/${id}/dlearn`, id)
+    return instance.get(`/${id}/dlearn`, id)
   }
 
   update (id, data) {

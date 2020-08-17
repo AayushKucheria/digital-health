@@ -14,7 +14,6 @@
         <div class="btns">
           <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/dlearn`)">Run Deep Learn</b-button>
           <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/kmean`)">Run K-Mean</b-button>
-          <b-button variant="success" class="btns" @click="$router.push('upload')">Upload session</b-button>
           <b-button variant="info" class="btns" @click.prevent="getEdit">Edit</b-button>
           <b-button variant="danger" class="btns">Delete</b-button>
         </div>

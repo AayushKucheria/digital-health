@@ -85,13 +85,13 @@ def upload_csv(patient_id: int, db: Session = Depends(get_db)):
     print("Method executing")
     return upload_data.start()
 
-@app.post("/patients/{patient_id}/kmean", response_model=List[schemas.Patient])
+@app.get("/patients/{patient_id}/kmean", response_model=List[schemas.Patient])
 def k_means(patient_id: str, db: Session = Depends(get_db)):
     print("K-Means executing")
     upload_data.start()  # Replace with k_means.start()
     #  return results from database
 
-@app.post("/patients/{patient_id}/dlearn", response_model=List[schemas.Patient])
+@app.get("/patients/{patient_id}/dlearn", response_model=List[schemas.Patient])
 def deep_learning(patient_id: str, db: Session = Depends(get_db)):
     print("Deep Learning executing")
     upload_data.start()  # Replace with dl.start()
