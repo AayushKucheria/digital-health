@@ -54,10 +54,15 @@ def edit_data(p_id: int):
     raw_session_table = get_session_data(p_id)
 
     # Read column names from file
-    cols = list(pd.read_csv(raw_session_table, nrows =1)) # OR 2 if the metadata of that table isn't dropped
-    print(cols)
-
-    df= pd.read_csv(raw_session_table, usecols =[i for i in cols if i != 'Timestamp'], skiprows=2, nrows=4099)
+    df = []
+    count = 0
+    for row in raw_session_table:
+        if count <= 4096: 
+            df.append(row)
+            count += 1
+        
+        break
+        
     return df
 
 if __name__ == "__main__":
