@@ -60,7 +60,6 @@ def edit_data(p_id: int):
         if count <= 4096: 
             df.append(row)
             count += 1
-        
         break
         
     return df

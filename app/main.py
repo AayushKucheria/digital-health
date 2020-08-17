@@ -14,6 +14,8 @@ import models
 import schemas
 from database import SessionLocal, engine
 import upload_data
+import huy 
+import ai
 
 models.database.Base.metadata.create_all(bind=engine)
 
@@ -46,6 +48,7 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     patients = crud.get_patients(db, skip=skip, limit=limit)
     return patients
 
+# Get patient from id
 @app.get("/patients/{patient_id}", response_model=schemas.Patient)
 def read_patient(patient_id: int, db: Session = Depends(get_db)):
     patient = crud.get_patient_by_id(db, patient_id=patient_id)
@@ -54,6 +57,7 @@ def read_patient(patient_id: int, db: Session = Depends(get_db)):
     print(patient)
     return patient
 
+# Get patient result
 @app.get("/patients/{p_id}/result", response_model=schemas.Result)
 def read_result(patient_id: int, db: Session = Depends(get_db)):
     result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
@@ -83,17 +87,24 @@ def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)
 @app.post("/patients/{patient_id}", response_model=List[schemas.Patient])
 def upload_csv(patient_id: int, db: Session = Depends(get_db)):
     print("Method executing")
-    return upload_data.start()
+    # return upload_data.start()
 
 @app.get("/patients/{patient_id}/kmean", response_model=List[schemas.Patient])
-def k_means(patient_id: str, db: Session = Depends(get_db)):
-    print("K-Means executing")
-    upload_data.start()  # Replace with k_means.start()
-    #  return results from database
+def k_means(patient_id: int, db: Session = Depends(get_db)):
+    ai.knn(patient_id)
+    result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="User session result not found")
+    print(result)
+    return result
 
 @app.get("/patients/{patient_id}/dlearn", response_model=List[schemas.Patient])
-def deep_learning(patient_id: str, db: Session = Depends(get_db)):
-    print("Deep Learning executing")
-    upload_data.start()  # Replace with dl.start()
+def deep_learning(patient_id: int, db: Session = Depends(get_db)):
+    huy.load_huy_model(huy.edit_data(patient_id))
+    result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="User session result not found")
+    print(result)
+    return result
+
     #  return results from database
-    return "Hello from deepLearn"
