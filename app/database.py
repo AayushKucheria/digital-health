@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, inspect
+from sqlalchemy import create_engine, inspect, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -13,3 +13,4 @@ inspector = inspect(engine)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base(bind=engine)
+metadata = MetaData(bind=engine, reflect=True)

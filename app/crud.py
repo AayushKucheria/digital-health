@@ -7,10 +7,11 @@ import pandas as pd
 from sqlalchemy import MetaData, Table, Column, Integer, Float, String
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import select
 
 import models
 import schemas
-from database import engine, inspector
+from database import engine, inspector, metadata
 
 
 # TODO Add security check fastapi
@@ -52,6 +53,16 @@ def get_tables_by_name(db: Session):
     return inspector.get_table_names()
 
 
+def get_table_data(db: Session, name: str):
+    my_table = Table(name, metadata, autoload=True, autoload_with=db)
+    s = select([my_table])
+    result = engine.execute(s)
+    temp = []
+    for row in result:
+        temp.append(row)
+    return temp
+
+
 # Get only emg and eeg tables (filter patients and datasets)
 def get_session_tables(db: Session):
     """
@@ -70,10 +81,12 @@ def get_session_tables_by_id(db: Session, p_id: int):
     a = [k for k in patient_sessions if str(p_id) in k]
     return a
 
+
 def get_latest_session_table_by_id(db: Session, p_id: int):
     patient_sessions = get_session_tables_by_id(db, p_id)
     patient_sessions.sort(key=lambda x: int(x.split('_')[2]))
     return patient_sessions[-1]
+
 
 ### Creating data ###
 
