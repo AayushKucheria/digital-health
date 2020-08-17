@@ -64,6 +64,13 @@ def get_session_tables(db: Session):
     a = [k for k in allTables if 'session' in k]
     return a
 
+
+def get_session_tables_by_id(db: Session, p_id: int):
+    patient_sessions = get_session_tables(db)
+    a = [k for k in patient_sessions if str(p_id) in k]
+    return a
+
+
 ### Creating data ###
 
 # TODO:
@@ -75,6 +82,7 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
     db.refresh(db_patient)
     return db_patient
 
+
 ### Creating result ####
 def create_patient_result(db: Session, result: schemas.ResultCreate, patient_id: int):
     db_result = models.Result(**result.dict(), patient_id=patient_id)
@@ -82,6 +90,7 @@ def create_patient_result(db: Session, result: schemas.ResultCreate, patient_id:
     db.commit()
     db.refresh(db_result)
     return db_result
+
 
 ## REPLACED WITH send_data() for a general usecase
 # def create_emg_table(db: Session, tablename: String):
