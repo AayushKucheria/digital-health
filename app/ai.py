@@ -13,6 +13,5 @@ def knn():
     return pred
 
 
-def dl():
-    a = list[np.ndarray[np.ndarray[np.int64]]]
-    return a
+
+#     a = list[np.ndarray[np.ndarray[np.int64]]]
