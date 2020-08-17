@@ -125,9 +125,13 @@ def create_patient_result(db: Session, result: schemas.ResultCreate, patient_id:
 
 
 # Add csv data to specified table
-def send_data(db: Session, tablename: str, csv_path: str):
+def send_data_from_csv(db: Session, tablename: str, csv_path: str):
     print("Sending data...")
     df = pd.read_csv(csv_path)
+    send_data_from_df(db, tablename, df)
+
+
+def send_data_from_df(db: Session, tablename: str, df: pd.DataFrame):
     conn = db.connection()
     df.to_sql("session_" + tablename, con=conn, if_exists='replace', index=False)
     try:

@@ -2,15 +2,16 @@
 import numpy as np
 import crud
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine
-from sqlalchemy import Table
-from sqlalchemy import MetaData
-from sqlalchemy.sql import select
+from database import SessionLocal
+
 
 def get_session_data(p_id: int):
     db: Session = SessionLocal()
     latest_session = crud.get_latest_session_table_by_id(db, p_id)
-    print(crud.get_table_data(db, latest_session))
+    data = crud.get_table_data(db, latest_session)
+    print(type(data))
+    (print(data[0]))
+
 
 
 def knn(p_id):

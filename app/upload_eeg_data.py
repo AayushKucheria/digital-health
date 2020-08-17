@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 import crud
 import numpy as np
 import os
+
 messages = []
 file_list = []
 
@@ -29,8 +30,10 @@ def get_data_from_csv():
 
     for i in file_list:
         with open(i, 'r') as read_obj:
+
             messages.append(
                 pd.read_csv(read_obj, usecols=['Timestamp', 'EEG.AF3', 'EEG.T7', 'EEG.Pz', 'EEG.T8', 'EEG.AF4']))
+    print(messages[0])
 
 
 # Find the max session for Patient and return max + 1 for next session
@@ -83,7 +86,8 @@ def start(patient_id: int):
         # --> Create table in DB --> Send data to the table
         else:
             db_session_tables = crud.get_session_tables(db)
-            db_tableName_data = np.array([x.split('_') for x in db_session_tables])  # Array of (type, id, session number)
+            db_tableName_data = np.array(
+                [x.split('_') for x in db_session_tables])  # Array of (type, id, session number)
             print("Filtered Table Data: ", db_tableName_data)
             # Get relevant table name
             session_number = session("eeg", int(patient.id), db_tableName_data)
@@ -91,17 +95,19 @@ def start(patient_id: int):
             finalName = "eeg_" + str(patient.id) + "_" + str(session_number)
             print("FinalName: ", finalName)
             # Send data to database
-            is_sent = crud.send_data(db, csv_path=curr_file, tablename=finalName)
+            for i in messages:
+                is_sent = crud.send_data_from_df(db, tablename=finalName, df=i)
 
-            if is_sent:
-                os.remove(curr_file)
-                return True
-            else:
-                return False
+                if is_sent:
+                    os.remove(curr_file)
+                    return True
+                else:
+                    return False
 
 
 if __name__ == "__main__":
-    # start(17)  # id for aayushkucheria
-    db: Session = SessionLocal
-    a = crud.get_latest_session_table_by_id(db, 17)
-    print(a)
+    start(17)  # id for aayushkucheria
+    # get_data_from_csv()
+    # db: Session = SessionLocal
+    # a = crud.get_latest_session_table_by_id(db, 17)
+    # print(a)
