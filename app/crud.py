@@ -84,8 +84,8 @@ def get_session_tables_by_id(db: Session, p_id: int):
 
 def get_latest_session_table_by_id(db: Session, p_id: int):
     patient_sessions = get_session_tables_by_id(db, p_id)
-    patient_sessions.sort(key=lambda x: int(x.split('_')[2]))
-    return patient_sessions[-1]
+    patient_sessions.sort(key=lambda x: int(x.split('_')[3]))
+    return patient_sessions[-2]
 
 
 ### Creating data ###
@@ -101,8 +101,8 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
 
 
 ### Creating result ####
-def create_patient_result(db: Session, result: schemas.ResultCreate, patient_id: int):
-    db_result = models.Result(**result.dict(), patient_id=patient_id)
+def create_patient_result(db: Session, result: models.Result):
+    db_result = result
     db.add(db_result)
     db.commit()
     db.refresh(db_result)
