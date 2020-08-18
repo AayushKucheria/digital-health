@@ -14,9 +14,13 @@ db: Session = SessionLocal()
 def get_session_data(p_id: int):
     global db
     latest_session = crud.get_latest_session_table_by_id(db, p_id)
-    if crud.get_last_result_by_patient_id(db, p_id).session_id == int(latest_session.split('_')[3]):
-        return (False, np.array(0))
+    print("Latest Session: ", latest_session)
+    latest_session_db_id = crud.get_last_result_by_patient_id(db, p_id).session_id
+    if latest_session_db_id == int(latest_session.split('_')[3]):
+        print("Result for session %s already present as %s".format(latest_session.split('_')[3], str(latest_session_db_id)))
+        return False, np.array(0)
     else:
+        print("Result for session %s not present, latest = %s", (latest_session.split('_')[3], str(latest_session_db_id)))
         initial_data = crud.get_table_data(db, latest_session)
         test = []
         for row in initial_data:
@@ -48,10 +52,12 @@ def knn(p_id):
         b = np.ones((less,), dtype=int)
         true = np.concatenate([a, b])
 
-        res = 1
-        if (pred == 0).sum() >= (pred == 1).sum():
-            res = 0
-
+        res = 0
+        if (pred == 0).sum() < (pred == 1).sum():
+            res = 1
+        print("-----------------------------")
+        print(create)
+        print("-----------------------------")
         res = models.Result(session_id=int(s_id), patient_id=int(p_id), result=int(res), model_id=0)
         crud.create_patient_result(db, res)
     else:

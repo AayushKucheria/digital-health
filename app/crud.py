@@ -40,7 +40,7 @@ def get_results_by_patient_id(db: Session, p_id: int):
 
 def get_last_result_by_patient_id(db: Session, p_id: int):
     # return get_results_by_patient_id(db, p_id).last()
-    return db.query(models.Result).filter(models.Result.patient_id == p_id).all()[-1]
+    return max(db.query(models.Result).filter(models.Result.patient_id == p_id).all(), key= lambda x: int(x.session_id))
 
 
 def get_tables_by_name(db: Session):
