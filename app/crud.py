@@ -40,7 +40,7 @@ def get_results_by_patient_id(db: Session, p_id: int):
 
 def get_last_result_by_patient_id(db: Session, p_id: int):
     # return get_results_by_patient_id(db, p_id).last()
-    return max(db.query(models.Result).filter(models.Result.patient_id == p_id).all(), key= lambda x: int(x.session_id))
+    return max(db.query(models.Result).filter(models.Result.patient_id == p_id).all(), key=lambda x: int(x.session_id))
 
 
 def get_tables_by_name(db: Session):
@@ -86,6 +86,12 @@ def get_latest_session_table_by_id(db: Session, p_id: int):
     patient_sessions = get_session_tables_by_id(db, p_id)
     patient_sessions.sort(key=lambda x: int(x.split('_')[3]))
     return patient_sessions[-1]
+
+
+def get_dl_session_table(db: Session, p_id: int):
+    sessions = get_session_tables_by_id(db, p_id)
+    patient_sessions = [i for j, i in enumerate(sessions) if sessions[j] == "session_eeg_17_5"]
+    return patient_sessions[0]
 
 
 ### Creating data ###
