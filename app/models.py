@@ -20,4 +20,4 @@ class Result(database.Base):
     patient_id = Column(Integer)
     model_id = Column(Integer)
     result = Column(Integer)
-    confidence = Column(Integer)
+    # confidence = Column(Integer)
