@@ -43,7 +43,7 @@ export default {
       .then(res => {
         console.log(res)
         console.log(res.data)
-        commit('GET_PATIENT', id)
+        commit('GET_RESULT', id)
       })
       .catch(err => {
         console.log('Network error when fetch 1 patient')
@@ -56,7 +56,7 @@ export default {
       .then(res => {
         console.log(res)
         console.log(res.data)
-        commit('GET_PATIENT', id)
+        commit('GET_RESULT', id)
       })
       .catch(err => {
         console.log('Network error when fetch 1 patient')

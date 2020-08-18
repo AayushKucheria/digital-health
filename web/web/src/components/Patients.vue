@@ -3,12 +3,12 @@
       <h1> Lists of patients </h1>
         <b-table striped hover
         :items="patients">
-        <template v-slot:cell(name)="data">
-          <router-link :to="`/patients/${data.index}`">
-            {{ data.value }}
-          </router-link>
-        </template>
-      </b-table>
+          <template v-slot:cell(name)="data">
+            <router-link :to="`/patients/${data.index}`">
+              {{ data.value }}
+            </router-link>
+          </template>
+        </b-table>
     </div>
 </template>
 
@@ -20,10 +20,10 @@ export default {
   data () {
     return {
       patient: {
-        sex: '',
-        age: 0,
-        name: '',
-        id: 0
+        // sex: '',
+        // age: 0,
+        // name: '',
+        // id: 0
       }
     }
   },

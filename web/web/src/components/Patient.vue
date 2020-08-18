@@ -45,7 +45,6 @@ export default {
       'deletePatient'
     ]),
     getEdit () {
-      console.log('edit')
       console.log(this.patient.id)
       this.loadPatient(this.$route.params.id)
     }
@@ -53,7 +52,7 @@ export default {
   created () {
     const patient = this.patients[this.$route.params.id]
     this.patient = patient
-    // console.log(this.patient.id)
+    console.log(this.patient.id)
     // var id = this.getPatientById(this.patient.id)
     // console.log(id)
   }

@@ -3,9 +3,9 @@
       <h1> Deep Learning Result </h1>
         <b-table striped hover
         :items="results">
-        <template v-slot:cell(name)="data">
-          {{ data.value }}
-        </template>
+          <template v-slot:cell(result)="data">
+            {{ data.value }}
+          </template>
       </b-table>
     </div>
 </template>

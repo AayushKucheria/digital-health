@@ -1,13 +1,13 @@
 <template>
-    <div>
-      <h1> K-Mean Result</h1>
+  <div>
+    <h1> K-Mean Result</h1>
         <b-table striped hover
         :items="results">
-        <template v-slot:cell(name)="data">
-          {{ data.value }}
-        </template>
-      </b-table>
-    </div>
+          <template v-slot:cell(result)="data">
+            {{ data.value }}
+          </template>
+        </b-table>
+  </div>
 </template>
 
 <script>
