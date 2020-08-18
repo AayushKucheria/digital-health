@@ -9,7 +9,8 @@ export default {
     state.patients.unshift(patient)
   },
   GET_RESULT: (state, result) => {
-    state.results.unshift(result)
+    // state.results.unshift(result)
+    state.results = result
   },
   REMOVE_PATIENT: (state, id) => {
     state.patients.filter(patient => patient.id !== id)

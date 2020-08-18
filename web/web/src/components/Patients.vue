@@ -20,10 +20,10 @@ export default {
   data () {
     return {
       patient: {
-        // sex: '',
-        // age: 0,
-        // name: '',
-        // id: 0
+        sex: '',
+        age: 0,
+        name: '',
+        id: 0
       }
     }
   },

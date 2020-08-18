@@ -14,7 +14,7 @@ db: Session = SessionLocal()
 def get_session_data(p_id: int):
     global db
     latest_session = crud.get_latest_session_table_by_id(db, p_id)
-    # latest_session = crud.get_dl_session_table(db, p_id)
+    latest_session = crud.get_dl_session_table(db, p_id)
     print("Latest Session: ", latest_session)
     latest_session_db_id = crud.get_last_result_by_patient_id(db, p_id).session_id
     if latest_session_db_id == int(latest_session.split('_')[3]):

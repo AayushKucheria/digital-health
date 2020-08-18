@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1> K-Mean Result</h1>
-        <b-table striped hover
-        :items="results">
-          <template v-slot:cell(result)="data">
-            {{ data.value }}
-          </template>
-        </b-table>
+      <div v-if="results">
+        <h5>Patient ID: {{ results.patient_id }} </h5>
+        <h5>Session ID: {{ results.session_id }} </h5>
+        <h5>Result: {{ results.result }} </h5>
+      </div>
+      <div v-else>Error loading result.</div>
   </div>
 </template>
 
@@ -37,6 +37,8 @@ export default {
   },
   created () {
     this.loadKMResult(this.$route.params.id)
+    // this.results = results
+    console.log(this.results)
   }
 }
 </script>

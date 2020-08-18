@@ -41,9 +41,9 @@ export default {
   async loadKMResult ({ commit }, id) {
     await PatientDataService.getKMResult(id)
       .then(res => {
-        console.log(res)
-        console.log(res.data)
-        commit('GET_RESULT', id)
+        // console.log(res)
+        // console.log(res.data)
+        commit('GET_RESULT', res.data)
       })
       .catch(err => {
         console.log('Network error when fetch 1 patient')
@@ -56,7 +56,7 @@ export default {
       .then(res => {
         console.log(res)
         console.log(res.data)
-        commit('GET_RESULT', id)
+        commit('GET_RESULT', res.data)
       })
       .catch(err => {
         console.log('Network error when fetch 1 patient')
