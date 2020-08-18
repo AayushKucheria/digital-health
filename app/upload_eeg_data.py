@@ -99,7 +99,7 @@ def start(patient_id: int):
                 is_sent = crud.send_data_from_df(db, tablename=finalName, df=i)
 
                 if is_sent:
-                    os.remove(curr_file)
+                    # os.remove(curr_file)
                     return True
                 else:
                     return False

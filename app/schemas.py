@@ -30,10 +30,10 @@ class ResultBase(BaseModel):
     patient_id: int
     model_id: int
     result: int
-    confidence: int
+    # confidence: int
 
 
-class ResultCreate(PatientBase):
+class ResultCreate(ResultBase):
     session_id: int
 
 

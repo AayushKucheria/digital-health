@@ -14,7 +14,7 @@ import models
 import schemas
 from database import SessionLocal, engine
 import upload_data
-import huy 
+import huy
 import ai
 
 models.database.Base.metadata.create_all(bind=engine)
@@ -48,6 +48,7 @@ def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     patients = crud.get_patients(db, skip=skip, limit=limit)
     return patients
 
+
 # Get patient from id
 @app.get("/patients/{patient_id}", response_model=schemas.Patient)
 def read_patient(patient_id: int, db: Session = Depends(get_db)):
@@ -56,6 +57,7 @@ def read_patient(patient_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     print(patient)
     return patient
+
 
 # Get patient result
 @app.get("/patients/{p_id}/result", response_model=schemas.Result)
@@ -66,6 +68,7 @@ def read_result(patient_id: int, db: Session = Depends(get_db)):
     print(result)
     return result
 
+
 # Create a patient in database when a "Patient" query has been sent
 @app.post("/patients/", response_model=schemas.Patient)
 def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
@@ -74,6 +77,7 @@ def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)
     if db_patient:
         raise HTTPException(status_code=400, detail="ID already registered")
     return crud.create_patient(db=db, patient=patient)
+
 
 ### Creating result ####
 # @app.post("/patients/{patient_id}/results", response_model=schemas.Result)
@@ -89,14 +93,16 @@ def upload_csv(patient_id: int, db: Session = Depends(get_db)):
     print("Method executing")
     # return upload_data.start()
 
-@app.get("/patients/{patient_id}/kmean", response_model=List[schemas.Patient])
+
+@app.get("/patients/{patient_id}/kmean", response_model=schemas.Result)
 def k_means(patient_id: int, db: Session = Depends(get_db)):
-    # ai.knn(patient_id)
+    ai.knn(patient_id)
     result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
     if result is None:
         raise HTTPException(status_code=404, detail="User session result not found")
-    print(result)
+    print(result.result)
     return result
+
 
 @app.get("/patients/{patient_id}/dlearn", response_model=List[schemas.Patient])
 def deep_learning(patient_id: int, db: Session = Depends(get_db)):

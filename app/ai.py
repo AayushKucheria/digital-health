@@ -14,42 +14,48 @@ db: Session = SessionLocal()
 def get_session_data(p_id: int):
     global db
     latest_session = crud.get_latest_session_table_by_id(db, p_id)
-    initial_data = crud.get_table_data(db, latest_session)
-    test = []
-    for row in initial_data:
-        temp = []
-        for elem in row[1:]:
-            temp.append([int(elem)])
-        test.append(np.asarray(temp))
+    if crud.get_last_result_by_patient_id(db, p_id).session_id == int(latest_session.split('_')[3]):
+        return (False, np.array(0))
+    else:
+        initial_data = crud.get_table_data(db, latest_session)
+        test = []
+        for row in initial_data:
+            temp = []
+            for elem in row[1:]:
+                temp.append([int(elem)])
+            test.append(np.asarray(temp))
 
-    a = np.array(test)
-    return a
+        a = np.array(test)
+        return True, a
 
 
 def knn(p_id):
     # get_session_data(p_id)
-    test = get_session_data(p_id)
-    model = TimeSeriesKMeans.from_json('res/knn_model.txt')
-    pred = model.predict(test)
+    (create, test) = get_session_data(p_id)
+    if create is True:
+        s_id = crud.get_latest_session_table_by_id(db, p_id).split('_')[3]
+        model = TimeSeriesKMeans.from_json('res/knn_model.txt')
+        pred = model.predict(test)
 
-    leng = len(test)
-    more = int(0.8 * leng)
-    less = int(0.2 * leng)
-    if more + less < leng:
-        more += 1
-    elif more + less > leng:
-        more -= 1
-    a = np.zeros((more,), dtype=int)
-    b = np.ones((less,), dtype=int)
-    true = np.concatenate([a, b])
+        leng = len(test)
+        more = int(0.8 * leng)
+        less = int(0.2 * leng)
+        if more + less < leng:
+            more += 1
+        elif more + less > leng:
+            more -= 1
+        a = np.zeros((more,), dtype=int)
+        b = np.ones((less,), dtype=int)
+        true = np.concatenate([a, b])
 
-    res = 1
-    if (pred == 0).sum() >= (pred == 1).sum():
-        res = 0
+        res = 1
+        if (pred == 0).sum() >= (pred == 1).sum():
+            res = 0
 
-    s_id = crud.get_latest_session_table_by_id(db, p_id).split('_')[3]
-    res = models.Result(session_id=int(s_id), patient_id=int(p_id), result=int(res), model_id=0)
-    crud.create_patient_result(db, res)
+        res = models.Result(session_id=int(s_id), patient_id=int(p_id), result=int(res), model_id=0)
+        crud.create_patient_result(db, res)
+    else:
+        return crud.get_last_result_by_patient_id(db, p_id)
     # print(pred)
     # print(confusion_matrix(true, pred))
 
