@@ -84,7 +84,7 @@ def get_session_tables_by_id(db: Session, p_id: int):
 
 def get_latest_session_table_by_id(db: Session, p_id: int):
     patient_sessions = get_session_tables_by_id(db, p_id)
-    patient_sessions.sort(key=lambda x: int(x.split('_')[2]))
+    patient_sessions.sort(key=lambda x: int(x.split('_')[3]))
     return patient_sessions[-1]
 
 

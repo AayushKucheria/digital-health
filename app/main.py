@@ -91,7 +91,7 @@ def upload_csv(patient_id: int, db: Session = Depends(get_db)):
 
 @app.get("/patients/{patient_id}/kmean", response_model=List[schemas.Patient])
 def k_means(patient_id: int, db: Session = Depends(get_db)):
-    ai.knn(patient_id)
+    # ai.knn(patient_id)
     result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
     if result is None:
         raise HTTPException(status_code=404, detail="User session result not found")
