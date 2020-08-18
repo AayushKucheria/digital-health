@@ -1,13 +1,20 @@
 <template>
-  <div>
-    <h1> K-Mean Result</h1>
-      <div v-if="results">
-        <h5>Patient ID: {{ results.patient_id }} </h5>
-        <h5>Session ID: {{ results.session_id }} </h5>
-        <h5>Result: {{ results.result }} </h5>
+  <div class="result">
+    <div class="card">
+      <div class="card-header">
+        <h2>K-Mean Result</h2>
       </div>
-      <div v-else>Error loading result.</div>
+      <div class="card-body">
+        <div v-if="results">
+          <h5>Patient ID: {{ results.patient_id }} </h5>
+          <h5>Session ID: {{ results.session_id }} </h5>
+          <h5>Result: {{ results.result }} </h5>
+        </div>
+        <div v-else>Error loading result.</div>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>

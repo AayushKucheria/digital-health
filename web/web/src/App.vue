@@ -22,6 +22,7 @@
 
 #nav {
   padding: 30px;
+  background-color: rgb(218, 180, 180);;
 
   a {
     font-weight: bold;

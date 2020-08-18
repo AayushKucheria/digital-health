@@ -1,8 +1,8 @@
 <template>
   <div class="addPatient">
-    <button @click= "togglePatientForm" class = "btn btn-primary">Add New Patient</button>
+    <h1>Add New Patient</h1>
 
-        <b-form @submit.prevent="handleSubmit" v-if="showPatientForm">
+        <b-form @submit.prevent="handleSubmit">
           <b-form-group id="input-group-1" label="Patient's Name:" label-for="input-1">
             <b-form-input
               id="input-1"
@@ -69,9 +69,6 @@ export default {
     ...mapActions([
       'addPatient'
     ]),
-    togglePatientForm () {
-      this.showPatientForm = !this.showPatientForm
-    },
     handleSubmit () {
       const { sex, age, name, id } = this.formData
       const payload = {
@@ -91,3 +88,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  h1{
+    margin-top: 1.5 0.5rem;
+  }
+</style>
