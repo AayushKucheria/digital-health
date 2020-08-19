@@ -5,12 +5,15 @@
         <h2>K-Mean Result</h2>
       </div>
       <div class="card-body">
-        <div v-if="results">
+        <div v-if="results && results.model_id==0">
           <h5>Patient ID: {{ results.patient_id }} </h5>
           <h5>Session ID: {{ results.session_id }} </h5>
           <h5>Result: {{ results.result }} </h5>
+          <p v-if="results.result == 0"> 0 means patient is not having epileptic seisure. </p>
+          <p v-else> 1 means patient is having epileptic seisure. </p>
+
         </div>
-        <div v-else>Error loading result.</div>
+        <div v-else>No result for K-Mean model found for this patient.</div>
       </div>
     </div>
   </div>
@@ -44,8 +47,19 @@ export default {
   },
   created () {
     this.loadKMResult(this.$route.params.id)
-    // this.results = results
     console.log(this.results)
   }
 }
 </script>
+
+<style>
+  .card{
+    margin-top: 2rem;
+  }
+  .card-header{
+    background-color: rgb(231, 243, 245);
+  }
+  p{
+    font-style: italic;
+  }
+</style>

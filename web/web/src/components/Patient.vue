@@ -54,8 +54,6 @@ export default {
     const patient = this.patients[this.$route.params.id]
     this.patient = patient
     console.log(this.patient.id)
-    // var id = this.getPatientById(this.patient.id)
-    // console.log(id)
   }
 }
 </script>
@@ -68,5 +66,11 @@ export default {
   .btns{
     margin: 0 0.5rem;
     padding: 0.5 1rem;
+  }
+  .card{
+    margin-top: 2rem;
+  }
+  .card-header{
+    background-color: rgb(231, 243, 245);
   }
 </style>

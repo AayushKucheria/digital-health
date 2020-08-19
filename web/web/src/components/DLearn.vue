@@ -5,12 +5,14 @@
         <h2>Deep Learning Result</h2>
       </div>
       <div class="card-body">
-        <div v-if="results">
+        <div v-if="results && results.model_id==1">
           <h5>Patient ID: {{ results.patient_id }} </h5>
           <h5>Session ID: {{ results.session_id }} </h5>
           <h5>Result: {{ results.result }} </h5>
+          <p v-if="results.result == 0"> 0 means patient doesn't have seisure. </p>
+          <p v-else> 1 means patient have seisure. </p>
         </div>
-        <div v-else>Error loading result.</div>
+        <div v-else>No result for K-Mean model found for this patient.</div>
       </div>
     </div>
   </div>
@@ -47,3 +49,15 @@ export default {
   }
 }
 </script>
+
+<style>
+  .card{
+    margin-top: 2rem;
+  }
+  .card-header{
+    background-color: rgb(231, 243, 245);
+  }
+  p{
+    font-style: italic;
+  }
+</style>

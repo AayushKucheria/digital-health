@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1> Lists of patients </h1>
+      <h1 class="classTitle"> Lists of patients </h1>
         <b-table striped hover
         :items="patients">
           <template v-slot:cell(name)="data">
@@ -40,13 +40,12 @@ export default {
   },
   created () {
     this.loadPatients()
-    // this.loadPatient(0)
   }
 }
 </script>
 
 <style>
-  h1{
-    margin-top: 1.5 0.5rem;
+  .classTitle, h1{
+    margin-top: 2rem;
   }
 </style>
