@@ -106,7 +106,7 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
     return db_patient
 
 
-### Creating result ####
+### Creating result ###
 def create_patient_result(db: Session, result: schemas.ResultCreate):
     db_result = result
     db.add(db_result)
@@ -114,6 +114,17 @@ def create_patient_result(db: Session, result: schemas.ResultCreate):
     db.refresh(db_result)
     return db_result
 
+### Delete patient ###
+def delete_patient_by_id(db: Session, patient_id: int):
+    db.query(models.Patient).filter(models.Patient.id == patient_id).delete()
+    try:
+        db.commit()
+        print ("Patient is deleted")
+        return True
+    except InvalidRequestError:
+        db.session.rollback()
+        print ("Patient is NOT deleted")
+        raise InvalidRequestError
 
 ## REPLACED WITH send_data() for a general usecase
 # def create_emg_table(db: Session, tablename: String):
