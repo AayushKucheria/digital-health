@@ -2,8 +2,9 @@
 TODO: Write code to remove title line once the integration is done. Rn I removed it manually
 TODO: Until then, delete row 1 in csv file and also have less rows.
 Pick relevant columns from emotiv eeg csv file and upload to database
+Filenames must be of the form: "data/eeg/(.*?).md.csv"
 '''
-
+import argparse
 import glob
 import re
 import pandas as pd
@@ -12,6 +13,7 @@ from sqlalchemy.orm import Session
 import crud
 import numpy as np
 import os
+from pathlib import Path
 
 messages = []
 file_list = []
@@ -19,8 +21,8 @@ file_list = []
 
 def get_data_from_csv():
     """
-    Select eeg csv files in data folder.
-    Pick relevant columns and store to list
+    Select eeg csv files in data/eeg folder.
+    Pick relevant columns and store in list
     :return:
     """
     global messages, file_list
@@ -30,10 +32,8 @@ def get_data_from_csv():
 
     for i in file_list:
         with open(i, 'r') as read_obj:
-
             messages.append(
                 pd.read_csv(read_obj, usecols=['Timestamp', 'EEG.AF3', 'EEG.T7', 'EEG.Pz', 'EEG.T8', 'EEG.AF4']))
-    print(messages[0])
 
 
 # Find the max session for Patient and return max + 1 for next session
@@ -44,8 +44,8 @@ def session(mtype: str, mid: int, all_tables: np.array):
 
     :param mtype: Current Recording type (Eeg or Emg)
     :param mid: Current Patient ID
-    :param all_tables: Details of all tables in DB: (Recording Type, Patient ID, Session number)
-    :return: Current Session number (last + 1)
+    :param all_tables: Details of all tablenames in DB: ["session", "eeg", "patient_id", "session_id"]
+    :return: Current Session number (max_in_db + 1)
     """
     sessions = [0]
     for i in all_tables:
@@ -65,8 +65,8 @@ def start(patient_id: int):
     # for filename in file_list:
     #     half_file_names.append(
     #         re.search("data/eeg/(.*?).md.csv", filename).group(1))  # Gets "eeg_number_date_time" from csv path
-    #     # TODO: Sort wrt timestamp in files
-    # half_file_names.sort(key=lambda x: float(x.split('_')[3]))  # Sorting wrt time # TODO: Not date, note this.
+    #     # TODO: Sort wrt absolute timestamp in files
+    # half_file_names.sort(key=lambda x: float(x.split('_')[3]))  # Sorting wrt time # Not date, note this.
 
     # Set table name (acc to DB), create the table, and upload data to it
     for curr_file in file_list:
@@ -81,33 +81,38 @@ def start(patient_id: int):
             print("Patient doesn't exist. Create patient first.")
 
         # All is okay, continue.
-        # Get all table names from db --> Get new session number for this patient
-        # --> Set tableName (replace time with session)
-        # --> Create table in DB --> Send data to the table
+        # Fetch tablenames from the db, and calculate the session number for this file.
+        # Once that's done, set the tablename and upload the table to the database.
         else:
+            # Fetch tablenames
             db_session_tables = crud.get_session_tables(db)
+            # Details of all tablenames in DB: ["session", "eeg", "patient_id", "session_id"]
             db_tableName_data = np.array(
-                [x.split('_') for x in db_session_tables])  # Array of (type, id, session number)
-            print("Filtered Table Data: ", db_tableName_data)
-            # Get relevant table name
+                [x.split('_') for x in db_session_tables])
+
+            # Get relevant session number
             session_number = session("eeg", int(patient.id), db_tableName_data)
 
-            finalName = "eeg_" + str(patient.id) + "_" + str(session_number)
+            finalName = "session_" + "eeg_" + str(patient.id) + "_" + str(session_number)
             print("FinalName: ", finalName)
+
             # Send data to database
             for i in messages:
                 is_sent = crud.send_data_from_df(db, tablename=finalName, df=i)
 
                 if is_sent:
-                    # os.remove(curr_file)
+                    new_path = "data/uploaded/" + name + ".md.csv"
+                    Path(curr_file).rename(new_path)
                     return True
                 else:
                     return False
 
 
 if __name__ == "__main__":
-    start(17)  # id for aayushkucheria
-    # get_data_from_csv()
-    # db: Session = SessionLocal
-    # a = crud.get_latest_session_table_by_id(db, 17)
-    # print(a)
+    # Get patient id from args parser else use default
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--pid",
+                        default=1, type=int, help="The patient id for these sessions?")
+    args = parser.parse_args()
+    print(args.pid)
+    start(args.pid)

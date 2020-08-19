@@ -139,7 +139,7 @@ def send_data_from_csv(db: Session, tablename: str, csv_path: str):
 
 def send_data_from_df(db: Session, tablename: str, df: pd.DataFrame):
     conn = db.connection()
-    df.to_sql("session_" + tablename, con=conn, if_exists='replace', index=False)
+    df.to_sql(tablename, con=conn, if_exists='replace', index=False)
     try:
         db.commit()
         return True

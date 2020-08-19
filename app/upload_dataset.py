@@ -1,3 +1,7 @@
+'''
+Upload all files in the bonn_dataset folder to database
+'''
+
 import glob
 import re
 
@@ -10,6 +14,7 @@ if __name__ == "__main__":
     df = []
 
     # Save name and contents of each file as a dataframe to df (list)
+    # The name will act as the tablename and the contents the values inside the table
     for i in range(0, len(file_list)):
         name = re.search("data/bonn_dataset/(.*?).csv", file_list[i]).group(1)
         with open(file_list[i], 'r') as read_obj:

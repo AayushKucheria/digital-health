@@ -13,9 +13,6 @@ import crud
 import models
 import schemas
 from database import SessionLocal, engine
-import upload_data
-import huy
-import ai
 
 models.database.Base.metadata.create_all(bind=engine)
 
