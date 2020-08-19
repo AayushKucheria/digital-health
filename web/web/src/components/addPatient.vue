@@ -1,7 +1,5 @@
 <template>
   <div class="addPatient">
-    <h1>Add New Patient</h1>
-
         <b-form @submit.prevent="handleSubmit">
           <b-form-group id="input-group-1" label="Patient's Name:" label-for="input-1">
             <b-form-input
@@ -90,7 +88,7 @@ export default {
 </script>
 
 <style>
-  h1{
-    margin-top: 1.5 0.5rem;
+  .addPatient{
+    margin-top: 2rem;
   }
 </style>
