@@ -9,8 +9,8 @@
           <h5>Patient ID: {{ results.patient_id }} </h5>
           <h5>Session ID: {{ results.session_id }} </h5>
           <h5>Result: {{ results.result }} </h5>
-          <p v-if="results.result == 0"> 0 means patient is not having epileptic seisure. </p>
-          <p v-else> 1 means patient is having epileptic seisure. </p>
+          <p v-if="results.result == 0"> The patient is not experiencing seizures. </p>
+          <p v-else> The patient is experiencing seizures. </p>
 
         </div>
         <div v-else>No result for K-Mean model found for this patient.</div>

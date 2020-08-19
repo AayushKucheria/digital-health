@@ -16,8 +16,8 @@ class Patient(database.Base):
 class Result(database.Base):
     __tablename__ = "results"
 
-    session_id = Column(Integer, primary_key=True, index=True)
-    patient_id = Column(Integer)
-    model_id = Column(Integer)
+    session_id = Column(Integer, primary_key=True)
+    patient_id = Column(Integer, primary_key=True)
+    model_id = Column(Integer, primary_key=True)
     result = Column(Integer)
     # confidence = Column(Integer)

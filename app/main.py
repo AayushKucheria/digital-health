@@ -10,9 +10,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 import crud
+import huy
 import models
 import schemas
 from database import SessionLocal, engine
+import ai
 
 models.database.Base.metadata.create_all(bind=engine)
 
@@ -93,20 +95,22 @@ def upload_csv(patient_id: int, db: Session = Depends(get_db)):
 
 @app.get("/patients/{patient_id}/kmean", response_model=schemas.Result)
 def k_means(patient_id: int, db: Session = Depends(get_db)):
-    # ai.knn(patient_id)
-    result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
+    result = ai.knn(patient_id)
+    # result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
     if result is None:
         raise HTTPException(status_code=404, detail="User session result not found")
     print(result.result)
     # result = { "patient_id": 17, "model_id": 0, "result": 0, "session_id":10}
     return result
-    
 
 
-@app.get("/patients/{patient_id}/dlearn", response_model=List[schemas.Patient])
+@app.get("/patients/{patient_id}/dlearn", response_model=schemas.Result)
 def deep_learning(patient_id: int, db: Session = Depends(get_db)):
-    # huy.load_huy_model(huy.edit_data(patient_id))
-    result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
+    result = huy.start(patient_id)
+    print("------------------------------HUY RESULT HERE------------------")
+    print(result)
+    # result = huy.load_huy_model(huy.edit_data(patient_id))
+    # result = crud.get_last_result_by_patient_id(db, p_id=patient_id)
     if result is None:
         raise HTTPException(status_code=404, detail="User session result not found")
     print(result)

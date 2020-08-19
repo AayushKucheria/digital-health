@@ -43,6 +43,23 @@ def get_last_result_by_patient_id(db: Session, p_id: int):
     return max(db.query(models.Result).filter(models.Result.patient_id == p_id).all(), key=lambda x: int(x.session_id))
 
 
+def get_last_result(db: Session, p_id: int, m_id: int):
+    return max(
+        db.query(models.Result).filter(models.Result.patient_id == p_id).filter(models.Result.model_id == m_id).all(),
+        key=lambda x: int(x.session_id))
+
+
+def is_result_present(db: Session, p_id: int, s_id: int, m_id: int):
+    a = db.query(models.Result).filter(
+        models.Result.model_id == m_id).filter(
+        models.Result.patient_id == p_id).filter(
+        models.Result.session_id == s_id).all()
+    if len(a) < 1:
+        return False
+    else:
+        return True
+
+
 def get_tables_by_name(db: Session):
     """
     Get all table names from database
