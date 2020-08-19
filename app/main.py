@@ -117,3 +117,12 @@ def deep_learning(patient_id: int, db: Session = Depends(get_db)):
     return result
 
     #  return results from database
+
+# Delete patient by ID
+@app.delete("/patients/{patient_id}", response_model=schemas.Patient)
+async def delete_patient(patient_id: int, db: Session = Depends(get_db)):
+    del_result = crud.delete_patient_by_id(db, patient_id=patient_id)
+    if del_result:
+        print(del_result)
+        return ("Patient with {patient_id} deleted successfully")
+    return ("Patient with {patient_id} is not found")
