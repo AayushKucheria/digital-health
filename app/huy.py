@@ -1,25 +1,18 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 import pandas as pd
-import pandas.testing as tm
-import os
-import sklearn_pandas
-from sklearn.model_selection import train_test_split
 
 import crud
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine
-from sqlalchemy import Table
-from sqlalchemy import MetaData
-from sqlalchemy.sql import select
+from database import SessionLocal
+
 import models
 
 m_id = 1
 db: Session = SessionLocal()
 
 
-## Original methods from Huy ##
+# Original methods from DL Notebook
 # method run input as size (4097x??)
 def testAug1(testSet):
     Divide1 = []
@@ -27,7 +20,6 @@ def testAug1(testSet):
         for k in range(4):
             divide1 = testSet.iloc[:, m][k * 1024:1024 + k * 1024].values.flatten()
             Divide1.append(divide1)
-    divX1 = pd.DataFrame(np.array(Divide1))
     CUT1 = []
     for r in Divide1:
         for p in range(3):
@@ -37,7 +29,7 @@ def testAug1(testSet):
 
 
 def load_huy_model(exists: bool, input, p_id: int, s_id: int):
-    print("---------HUY---------")
+    print("---------DL---------")
     if exists:
         print("Returning last result")
         print(input)
@@ -57,7 +49,6 @@ def load_huy_model(exists: bool, input, p_id: int, s_id: int):
 
 
 # Get table from database ##
-# Question: in CSV still?
 def get_session_data(p_id: int):
     session = crud.get_latest_session_table_by_id(db, p_id)
     s_id = session.split('_')[3]
@@ -66,10 +57,11 @@ def get_session_data(p_id: int):
     print("Exists: ", exists)
     if exists:
         return exists, [], s_id
-    else: # print(crud.get_table_data(db, latest_session))
+    else:  # print(crud.get_table_data(db, latest_session))
         return exists, crud.get_table_data(db, session), s_id
 
 
+# Picking only 4096 rows from data to insert into DL Model
 def edit_data(p_id: int):
     exists, raw_session_table, s_id = get_session_data(p_id)
     print("----Editing Data----")
@@ -83,7 +75,7 @@ def edit_data(p_id: int):
         for row in raw_session_table:
             row_without_timestamp = list()
             for i in range(len(row)):
-                if (i > 0):
+                if i > 0:
                     row_without_timestamp.append(row[i])
             if count <= 4096:
                 data.append(row_without_timestamp)
@@ -96,12 +88,6 @@ def edit_data(p_id: int):
         print(data)
         print(data.shape)
 
-        # data = pd.DataFrame(data=data[0:,0:].T)
-        # data =  pd.DataFrame(data=data[1:,0:])
-        # or
-        # data =  pd.DataFrame(data=data[0:,1:])
-        # and
-        # data =  pd.DataFrame(data=data[1:,1:])
         print("Returning edited data")
         return False, data, p_id, s_id
 
@@ -112,5 +98,6 @@ def start(pat_id: int):
 
 
 if __name__ == "__main__":
+    # Test Run
     exists, data, p_id, s_id = edit_data(17)
     # load_huy_model(edit_data(17))
