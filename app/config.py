@@ -1,5 +1,5 @@
 '''
-List of important data
+Database Config
 '''
 
 host = 'ec2-34-197-188-147.compute-1.amazonaws.com'
