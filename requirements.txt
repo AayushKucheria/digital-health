@@ -21,6 +21,7 @@ sqlparse
 starlette
 threadpoolctl
 urllib3
+uvicorn
 uvloop
 websockets
 numpy~=1.18.5
