@@ -22,6 +22,8 @@ sqlparse
 starlette
 threadpoolctl
 urllib3
+async-exit-stack
+async-generator
 uvicorn
 uvloop
 websockets
