@@ -12,8 +12,8 @@
         <h5>Gender: {{ patient.sex }} </h5>
         <br>
         <div class="btns">
-          <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/dlearn`)">Result Deep Learn</b-button>
-          <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/kmean`)">Result K-Mean</b-button>
+          <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/dlearn`)">Run Deep Learn</b-button>
+          <b-button variant="success" class="btns" @click="$router.push(`${patient.id}/kmean`)">Run K-Mean</b-button>
           <b-button variant="danger" class="btns" @click.prevent="deletepatient">Delete</b-button>
         </div>
       </div>

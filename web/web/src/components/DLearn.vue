@@ -12,7 +12,7 @@
           <p v-if="results.result == 0"> The patient is not experiencing seizures. </p>
           <p v-else> The patient is experiencing seizures. </p>
         </div>
-        <div v-else>No result for K-Mean model found for this patient.</div>
+        <div v-else>No result for Deep Learning model found for this patient.</div>
       </div>
     </div>
   </div>
