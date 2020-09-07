@@ -3,20 +3,20 @@ Communication b/w frontend and backend.
 Run local server command: uvicorn main:app
 '''
 
+from os import environ
 from typing import List
 
+import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from os import environ
-import uvicorn, gunicorn
-import crud
+
+import ai
+import app.crud as crud
 import huy
 import models
 import schemas
 from database import SessionLocal, engine
-import ai
-import uvicorn
 
 models.database.Base.metadata.create_all(bind=engine)
 
@@ -120,6 +120,7 @@ def deep_learning(patient_id: int, db: Session = Depends(get_db)):
 
     #  return results from database
 
+
 # Delete patient by ID
 @app.delete("/patients/{patient_id}", response_model=schemas.Patient)
 async def delete_patient(patient_id: int, db: Session = Depends(get_db)):
@@ -128,6 +129,7 @@ async def delete_patient(patient_id: int, db: Session = Depends(get_db)):
         print(del_result)
         return ("Patient with {patient_id} deleted successfully")
     return ("Patient with {patient_id} is not found")
+
 
 if __name__ == '__main__':
     # uvicorn.run(app, port=)
