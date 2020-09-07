@@ -9,9 +9,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import select
 
-import models
-import schemas
-from database import engine, inspector, metadata
+import app.models as models
+import app.schemas as schemas
+from app.database import engine, inspector, metadata
 
 
 # TODO Add security check fastapi

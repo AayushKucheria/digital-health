@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-import database
+import app.database as database
 
 
 # SQL Alchemy Models

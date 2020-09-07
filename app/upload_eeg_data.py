@@ -8,9 +8,9 @@ import argparse
 import glob
 import re
 import pandas as pd
-from database import SessionLocal
+from app.database import SessionLocal
 from sqlalchemy.orm import Session
-import crud
+import app.crud as crud
 import numpy as np
 import os
 from pathlib import Path

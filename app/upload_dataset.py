@@ -6,7 +6,7 @@ import glob
 import re
 
 import pandas as pd
-from database import engine
+from app.database import engine
 
 if __name__ == "__main__":
 
