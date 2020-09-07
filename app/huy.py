@@ -4,7 +4,7 @@ import pandas as pd
 
 import app.crud as crud
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from app.database import SessionLocal
 
 import app.models as models
 
