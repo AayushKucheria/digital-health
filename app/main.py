@@ -17,7 +17,7 @@ import app.schemas as schemas
 from app.database import SessionLocal, engine
 # from database import SessionLocal, engine
 # import ai
-# import app.crud as crud
+import app.crud as crud
 # import huy
 # import models
 # import schemas
