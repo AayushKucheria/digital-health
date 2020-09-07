@@ -9,8 +9,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from os import environ
-from waitress import serve
-
+import uvicorn, gunicorn
 import crud
 import huy
 import models
@@ -132,5 +131,6 @@ async def delete_patient(patient_id: int, db: Session = Depends(get_db)):
 
 if __name__ == '__main__':
     # uvicorn.run(app, port=)
-    port = int(environ.get('PORT')) #, 8080)
-    serve(app, host='0.0.0.0', port=port)
+    port = int(environ.get('PORT', 8080))
+    # serve(app, host='0.0.0.0', port=port)
+    uvicorn.run(app, host='0.0.0.0', port=port)

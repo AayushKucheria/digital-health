@@ -16,7 +16,6 @@ python-dateutil
 pytz
 scipy
 setuptools
-waitress
 six
 sqlparse
 starlette
