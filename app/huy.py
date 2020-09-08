@@ -2,11 +2,14 @@ import numpy as np
 import tensorflow as tf
 import pandas as pd
 
-import app.crud as crud
+# import app.crud as crud
+import crud
 from sqlalchemy.orm import Session
-from app.database import SessionLocal
+# from app.database import SessionLocal
+from database import SessionLocal
 
-import app.models as models
+# import app.models as models
+import models
 
 m_id = 1
 db: Session = SessionLocal()

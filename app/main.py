@@ -10,18 +10,17 @@ import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-import app.ai as ai
-import app.huy as huy
-import app.models as models
-import app.schemas as schemas
-from app.database import SessionLocal, engine
-# from database import SessionLocal, engine
-# import ai
-import app.crud as crud
-# import huy
-# import models
-# import schemas
-# from database import SessionLocal, engine
+# import app.ai as ai
+# import app.huy as huy
+# import app.models as models
+# import app.schemas as schemas
+# from app.database import SessionLocal, engine
+# import app.crud as crud
+import ai
+import huy
+import models
+from database import SessionLocal, engine
+import crud
 
 models.database.Base.metadata.create_all(bind=engine)
 
