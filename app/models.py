@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 
-# import app.database as database
-import database
+import app.database as database
+# import database
 
 # SQL Alchemy Models
 class Patient(database.Base):

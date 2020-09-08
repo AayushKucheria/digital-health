@@ -1,13 +1,13 @@
 from tslearn.clustering import TimeSeriesKMeans
 import numpy as np
-# import app.crud as crud
-import crud
+import app.crud as crud
+# import crud
 from sqlalchemy.orm import Session
-# from app.database import SessionLocal
-from database import SessionLocal
+from app.database import SessionLocal
+# from database import SessionLocal
 from sklearn.metrics import confusion_matrix
-# import app.models as models
-import models
+import app.models as models
+# import models
 
 db: Session = SessionLocal()
 m_id = 0

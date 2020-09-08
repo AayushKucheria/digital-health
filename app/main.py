@@ -13,11 +13,12 @@ from sqlalchemy.orm import Session
 # from os import environ
 # from waitress import serve
 
-import crud
-import huy
-import models
-from database import SessionLocal, engine
-import ai
+import app.crud as crud
+import app.huy as huy
+import app.models as models
+from app.database import SessionLocal, engine
+import app.ai as ai
+import app.schemas as schemas
 # import uvicorn
 
 models.database.Base.metadata.create_all(bind=engine)
