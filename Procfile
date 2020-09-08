@@ -1,1 +1,1 @@
-web: gunicorn -w 1 -k uvicorn.workers.UvicornWorker app.main:app & npm run serve --prefix web/web
+web: gunicorn -w 1 -k uvicorn.workers.UvicornWorker app.main:app & npm run serve --prefix web
