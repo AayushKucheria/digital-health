@@ -6,11 +6,10 @@
     "node": "10.x"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "postinstall": "npm run build",
-    "start": "node server.js"
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@vue/cli": "^4.5.4",
