@@ -14,17 +14,17 @@
   },
   "dependencies": {
     "@vue/cli": "^4.5.4",
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-plugin-router": "~4.4.0",
+    "@vue/cli-plugin-vuex": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
+    "@vue/eslint-config-standard": "^5.1.2",
     "axios": "^0.19.2",
+    "babel-eslint": "^10.1.0",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuex": "^3.5.1",
-
-    "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/eslint-config-standard": "^5.1.2",
-    "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
@@ -35,10 +35,9 @@
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "serve-static": "^1.14.1",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
     "vue-template-compiler": "^2.6.11",
-    "@vue/cli-plugin-router": "~4.4.0",
-    "@vue/cli-plugin-vuex": "~4.4.0",
-    "@vue/cli-plugin-babel": "~4.4.0",
-    "@vue/cli-service": "~4.4.0"
+    "vuex": "^3.5.1"
   }
 }
