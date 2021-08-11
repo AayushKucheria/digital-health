@@ -1,4 +1,7 @@
-# Epilepsy Detection with EEG
+# Project Title
+
+Epilepsy Detection with EEG
+
 ## Summary
 Link - http://protopaja.aalto.fi/protopaja-2020/futurice-2/
 
